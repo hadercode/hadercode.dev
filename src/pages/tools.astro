@@ -1,307 +1,9 @@
 ---
 import Layout from "../layouts/Layout.astro";
-
-interface Tool {
-  name: string;
-  category: "plugins" | "extensiones" | "componentes" | "frameworks";
-  description: string;
-  link: string;
-  tags: string[];
-  highlight?: boolean;
-}
-
-interface RoadmapStep {
-  step: string;
-  title: string;
-  desc: string;
-  concepts: string[];
-  resources: string[];
-}
-
-interface Roadmap {
-  id: string;
-  name: string;
-  description: string;
-  steps: RoadmapStep[];
-}
-
-const tools: Tool[] = [
-  {
-    name: "Astro Framework",
-    category: "frameworks",
-    description: "El framework para la web moderna orientada a contenido. Arquitectura de islas, HTML estático por defecto y rendimiento de carga óptimo.",
-    link: "https://astro.build",
-    tags: ["SSG", "Performance", "React/Vue/Svelte"],
-    highlight: true,
-  },
-  {
-    name: "Framer Motion",
-    category: "componentes",
-    description: "Biblioteca de animaciones premium para React. Facilita la creación de transiciones complejas y micro-interacciones de alta fidelidad.",
-    link: "https://framer.com/motion",
-    tags: ["React", "Animations", "UI/UX"],
-    highlight: true,
-  },
-  {
-    name: "Tailwind CSS IntelliSense",
-    category: "extensiones",
-    description: "Extensión oficial para VS Code que provee autocompletado avanzado, resaltado de clases y linting interactivo para Tailwind.",
-    link: "https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss",
-    tags: ["VS Code", "Tailwind", "Productividad"],
-    highlight: false,
-  },
-  {
-    name: "Docker Desktop",
-    category: "plugins",
-    description: "Entorno local completo para crear, desplegar e interactuar con contenedores de forma aislada, consistente y reproducible.",
-    link: "https://www.docker.com",
-    tags: ["Containers", "DevOps", "Virt"],
-    highlight: false,
-  },
-  {
-    name: "GitLens",
-    category: "extensiones",
-    description: "Extensión para VS Code que amplía las capacidades de Git. Visualiza autoría por línea de código, historiales y ramificaciones.",
-    link: "https://gitlens.amadeus.dev",
-    tags: ["VS Code", "Git", "DX"],
-    highlight: false,
-  },
-  {
-    name: "Prettier",
-    category: "plugins",
-    description: "Formateador de código multiplataforma para forzar de manera automatizada una consistencia visual limpia en todo tu código.",
-    link: "https://prettier.io",
-    tags: ["Formatters", "DX", "Standard"],
-    highlight: false,
-  },
-];
-
-const roadmaps: Roadmap[] = [
-  {
-    id: "frontend",
-    name: "frontend.md",
-    description: "Dominio completo de la capa de presentación: HTML semántico, CSS responsivo avanzado, optimización de velocidad de carga y Web Vitals.",
-    steps: [
-      {
-        step: "STEP 01",
-        title: "Estructura Semántica & Accesibilidad",
-        desc: "Construir maquetación web sólida, semántica y legible por motores de búsqueda, garantizando la accesibilidad para tecnologías de asistencia.",
-        concepts: ["HTML5 Semantics", "Accesibilidad (WCAG)", "Roles ARIA", "SEO Básico"],
-        resources: ["MDN Web Docs", "web.dev accessibility", "a11y Project"],
-      },
-      {
-        step: "STEP 02",
-        title: "Layouts & CSS Moderno",
-        desc: "Diseños flexibles y dinámicos usando cuadrículas avanzadas, variables CSS nativas, metodologías escalables y frameworks utilitarios.",
-        concepts: ["CSS Grid & Flexbox", "Custom Properties", "CSS Modules", "Tailwind CSS"],
-        resources: ["CSS Tricks Grid Guide", "Tailwind Documentation", "BEM Methodology"],
-      },
-      {
-        step: "STEP 03",
-        title: "Client-Side JS & Bundlers",
-        desc: "Configuración y optimización de flujos de desarrollo modernos con compiladores tipados, linters y empaquetadores de alto rendimiento.",
-        concepts: ["ES6+ Syntax", "TypeScript Foundations", "Vite", "ESLint & Prettier"],
-        resources: ["TypeScript Handbook", "Vite.dev", "You Don't Know JS"],
-      },
-      {
-        step: "STEP 04",
-        title: "Core Web Vitals & Rendimiento",
-        desc: "Optimización rigurosa de tiempos de renderizado, carga diferida (lazy loading), compresión de recursos y arquitecturas modernas de islas estáticas.",
-        concepts: ["LCP, FID, CLS Metrics", "Lazy Loading", "Asset Compression", "Astro Islands (SSR)"],
-        resources: ["Lighthouse Audits", "web.dev/vitals", "Astro Docs (Performance)"],
-      },
-    ],
-  },
-  {
-    id: "backend",
-    name: "backend.sh",
-    description: "Arquitectura de servidores escalables, bases de datos complejas, seguridad de endpoints y diseño de APIs robustas.",
-    steps: [
-      {
-        step: "STEP 01",
-        title: "Entornos de Ejecución & Servidores",
-        desc: "Comprensión del funcionamiento interno de Node.js, flujos I/O asíncronos y creación de endpoints HTTP tradicionales.",
-        concepts: ["Node.js Runtime", "Non-blocking I/O", "Express.js / Fastify", "REST API Design"],
-        resources: ["Node.js Docs", "Express Guide", "HTTP Spec (MDN)"],
-      },
-      {
-        step: "STEP 02",
-        title: "Bases de Datos (SQL & NoSQL)",
-        desc: "Modelado de esquemas relacionales y de documentos, optimización de consultas mediante indexación, y uso de ORMs modernos.",
-        concepts: ["PostgreSQL / MySQL", "MongoDB", "Prisma ORM", "Database Indexing"],
-        resources: ["Prisma Docs", "SQL Bolt", "Mongo University"],
-      },
-      {
-        step: "STEP 03",
-        title: "Seguridad & Autenticación",
-        desc: "Protección de rutas del servidor, control de acceso basado en tokens y mitigación de vulnerabilidades comunes de OWASP.",
-        concepts: ["JWT Auth", "CORS & Helmet", "OAuth2.0 / OpenID", "Bcrypt Hashing"],
-        resources: ["OWASP Top 10", "JWT.io", "Auth0 Blog"],
-      },
-      {
-        step: "STEP 04",
-        title: "Caching & Colas de Procesamiento",
-        desc: "Implementación de caché en memoria de alta velocidad y delegación de tareas pesadas fuera del ciclo de petición-respuesta.",
-        concepts: ["Redis Caching", "BullMQ / RabbitMQ", "Background Workers", "Rate Limiting"],
-        resources: ["Redis University", "BullMQ Docs", "Message Queue Architectures"],
-      },
-    ],
-  },
-  {
-    id: "fullstack",
-    name: "fullstack.json",
-    description: "Integración de la experiencia frontend y la robustez backend en soluciones completas, monorepositorios y despliegues serverless.",
-    steps: [
-      {
-        step: "STEP 01",
-        title: "Arquitecturas de Monorepositorios",
-        desc: "Gestión eficiente de múltiples aplicaciones y paquetes de dependencias compartidas en una única base de código.",
-        concepts: ["Turborepo", "pnpm / npm Workspaces", "Shared Design Systems", "Shared Configs"],
-        resources: ["Turborepo Docs", "pnpm Workspaces Guide"],
-      },
-      {
-        step: "STEP 02",
-        title: "Integración Segura (Typesafe)",
-        desc: "Conexión fuertemente tipada de punta a punta entre el backend y el cliente para evitar discrepancias de API.",
-        concepts: ["tRPC", "GraphQL & Codegen", "OpenAPI / Swagger Specs"],
-        resources: ["tRPC Docs", "GraphQL Docs", "Swagger.io"],
-      },
-      {
-        step: "STEP 03",
-        title: "Estrategias Híbridas de Renderizado",
-        desc: "Balance óptimo entre renderizado del lado del servidor, generación estática y regeneración en segundo plano.",
-        concepts: ["Server-Side Rendering (SSR)", "Incremental Static Regeneration (ISR)", "Edge Cache CDNs"],
-        resources: ["Next.js Routing", "Vercel Cache Optimization"],
-      },
-      {
-        step: "STEP 04",
-        title: "Fórmulas Serverless & Edge",
-        desc: "Construcción de funciones en la nube autoejecutables y bases de datos serverless de mínima latencia.",
-        concepts: ["Cloud Functions", "Vercel / Netlify Edge Runtime", "Supabase / Firebase Integration"],
-        resources: ["Cloudflare Workers", "Supabase Docs", "Edge Middleware Guides"],
-      },
-    ],
-  },
-  {
-    id: "devops",
-    name: "devops.yml",
-    description: "Automatización de infraestructura, contenedores, integración y despliegue continuo (CI/CD) en la nube.",
-    steps: [
-      {
-        step: "STEP 01",
-        title: "Contenedores con Docker",
-        desc: "Diseño de contenedores portables y eficientes usando compilaciones multi-etapa y orquestación local.",
-        concepts: ["Dockerfile Design", "Docker Compose", "Multi-stage Builds", "Volume Bindings"],
-        resources: ["Docker Reference", "Docker Compose Docs"],
-      },
-      {
-        step: "STEP 02",
-        title: "Integración & Entrega Continua",
-        desc: "Automatización completa de flujos de testing, análisis estático de código y despliegues directos a producción.",
-        concepts: ["GitHub Actions Pipelines", "GitLab CI", "Automated Testing Suites", "Docker Registries"],
-        resources: ["GitHub Actions Lab", "CI/CD Best Practices"],
-      },
-      {
-        step: "STEP 03",
-        title: "Servicios Cloud & Redes",
-        desc: "Aprovisionamiento de servidores, almacenamiento en la nube, y políticas de seguridad/red.",
-        concepts: ["AWS EC2 Instances", "AWS S3 Storage", "IAM Policies", "SSL/TLS (Let's Encrypt)"],
-        resources: ["AWS Documentation", "Cloudflare Learning Center"],
-      },
-      {
-        step: "STEP 04",
-        title: "Monitoreo & Orquestación",
-        desc: "Configuración de paneles para recolectar métricas de servidores y balanceadores de carga en tiempo real.",
-        concepts: ["Nginx Reverse Proxy", "Prometheus & Grafana", "pm2 Service Management", "Log Aggregation"],
-        resources: ["Nginx Config Guide", "Grafana Dashboards", "Prometheus Setup"],
-      },
-    ],
-  },
-  {
-    id: "javascript",
-    name: "javascript.sh",
-    description: "De los fundamentos de sintaxis moderna al control del motor V8, asincronía y administración avanzada de memoria.",
-    steps: [
-      {
-        step: "STEP 01",
-        title: "Fundamentos Avanzados & ES6+",
-        desc: "Dominio de estructuras sintácticas avanzadas, contextos léxicos, closures y la API de manipulación de arrays.",
-        concepts: ["Lexical Scope & Closures", "Array Methods (map, reduce, filter)", "Destructuring & Spreads", "Prototypal Inheritance"],
-        resources: ["MDN JavaScript Guide", "JavaScript.info"],
-      },
-      {
-        step: "STEP 02",
-        title: "JavaScript Asíncrono",
-        desc: "Comprensión rigurosa de la ejecución no bloqueante de JavaScript mediante promesas, el ciclo de eventos y tareas.",
-        concepts: ["Event Loop Mechanics", "Microtasks & Macrotasks", "Async / Await Pattern", "Promise Concurrency APIs"],
-        resources: ["JS Event Loop Explained", "Jake Archibald: Tasks"],
-      },
-      {
-        step: "STEP 03",
-        title: "Internas del Motor JS & Optimización",
-        desc: "Cómo el motor V8 compila el código y gestiona el uso del Garbage Collector para evitar fugas de memoria.",
-        concepts: ["V8 JIT Compiler", "Garbage Collection (GC)", "Memory Leaks Detection", "Call Stack & Heap"],
-        resources: ["V8 Dev Blog", "Chrome DevTools Memory Audits"],
-      },
-    ],
-  },
-  {
-    id: "react",
-    name: "react.md",
-    description: "Dominio del ecosistema de React. Desde el árbol de componentes virtuales hasta Server Components y Next.js.",
-    steps: [
-      {
-        step: "STEP 01",
-        title: "JSX, Props & Ciclo de Vida",
-        desc: "Creación de interfaces declarativas reutilizables y comprensión del algoritmo de reconciliación de React (Fiber).",
-        concepts: ["Virtual DOM & Reconciliation", "Component State (useState)", "Side Effects (useEffect)", "Key prop optimization"],
-        resources: ["React Official Documentation", "React Beta Docs"],
-      },
-      {
-        step: "STEP 02",
-        title: "Hooks Avanzados & Estado Global",
-        desc: "Abstracción de lógica de estado con hooks personalizados y estructuración de almacenes de estado global óptimos.",
-        concepts: ["useRef & useMemo / useCallback", "Zustand / Redux Toolkit", "Context API & Optimization", "Custom Hooks Architecture"],
-        resources: ["Zustand Guide", "Kent C. Dodds: React Hooks"],
-      },
-      {
-        step: "STEP 03",
-        title: "React Server Components",
-        desc: "Transición hacia el desarrollo Fullstack de React, dividiendo componentes cliente de componentes de servidor.",
-        concepts: ["React Server Components (RSC)", "Server Actions", "Streaming & Suspense", "Next.js App Router"],
-        resources: ["Next.js Docs", "React RSC Specs"],
-      },
-    ],
-  },
-  {
-    id: "nest",
-    name: "nestjs.config",
-    description: "Arquitectura empresarial modular fuertemente tipada en TypeScript para la construcción de backend altamente desacoplados.",
-    steps: [
-      {
-        step: "STEP 01",
-        title: "Arquitectura Modular & DI",
-        desc: "Estructuración de módulos, controladores y servicios utilizando los principios de inyección de dependencias de NestJS.",
-        concepts: ["Modules & Controllers", "Providers & Services", "Dependency Injection", "NestJS CLI"],
-        resources: ["NestJS Documentation (Overview)"],
-      },
-      {
-        step: "STEP 02",
-        title: "Pipelines, Guards & Interceptors",
-        desc: "Manejo seguro de solicitudes web. Validación, autenticación robusta y formateo estructurado de respuestas.",
-        concepts: ["ValidationPipe (class-validator)", "AuthGuards (Passport)", "Logging / Transform Interceptors", "Exception Filters"],
-        resources: ["NestJS Techniques", "NestJS Security Guide"],
-      },
-      {
-        step: "STEP 03",
-        title: "Arquitectura de Microservicios",
-        desc: "Desarrollo de sistemas distribuidos y comunicación basada en eventos mediante colas o transporte binario.",
-        concepts: ["gRPC Transport", "Redis Pub/Sub", "RabbitMQ Integration", "Hybrid Applications"],
-        resources: ["NestJS Microservices", "Microservice Patterns"],
-      },
-    ],
-  },
-];
+import type { Tool, Roadmap } from "../types/tools";
+import { tools } from "../data/tools";
+import { roadmaps } from "../data/roadmaps";
+import "../styles/tools.css";
 
 // Contar herramientas por categoría
 const categoriesCount = tools.reduce(
@@ -316,32 +18,133 @@ const totalToolsCount = tools.length;
 ---
 
 <Layout
-  title="Herramientas & Hojas de Ruta — hadercode.dev"
+  title="Herramientas & Hojas de Ruta"
   description="Colección seleccionada de utilidades técnicas, extensiones de desarrollo y rutas de aprendizaje paso a paso para ingeniería de software."
 >
+  <!-- Botón Flotante de Filtrado (Móvil) -->
+  <button
+    id="mobile-filter-btn"
+    class="mobile-filter-btn mono"
+    aria-label="Filtrar categorías"
+    data-cursor-expand
+  >
+    <svg
+      viewBox="0 0 24 24"
+      width="18"
+      height="18"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+    </svg>
+    <span>filtrar_cat()</span>
+  </button>
+
+  <!-- Modal de Filtros (Móvil) -->
+  <div id="filter-modal" class="filter-modal">
+    <div class="filter-modal-backdrop" id="filter-modal-backdrop"></div>
+    <div class="filter-modal-content">
+      <div class="filter-modal-header">
+        <span class="modal-title mono">// SELECT_FILTER_CATEGORY</span>
+        <button
+          id="close-filter-modal"
+          class="close-modal-btn mono"
+          aria-label="Cerrar modal">[x]</button
+        >
+      </div>
+      <div class="filter-modal-body">
+        <ul class="modal-category-list mono">
+          <li>
+            <button
+              class="modal-category-btn active hover-link"
+              data-category="all"
+            >
+              <span class="btn-indicator">[*]</span> todos/ ({totalToolsCount})
+            </button>
+          </li>
+          <li>
+            <button
+              class="modal-category-btn hover-link"
+              data-category="plugins"
+            >
+              <span class="btn-indicator">[ ]</span> plugins/ ({
+                categoriesCount.plugins || 0
+              })
+            </button>
+          </li>
+          <li>
+            <button
+              class="modal-category-btn hover-link"
+              data-category="extensiones"
+            >
+              <span class="btn-indicator">[ ]</span> extensiones/ ({
+                categoriesCount.extensiones || 0
+              })
+            </button>
+          </li>
+          <li>
+            <button
+              class="modal-category-btn hover-link"
+              data-category="componentes"
+            >
+              <span class="btn-indicator">[ ]</span> componentes/ ({
+                categoriesCount.componentes || 0
+              })
+            </button>
+          </li>
+          <li>
+            <button
+              class="modal-category-btn hover-link"
+              data-category="frameworks"
+            >
+              <span class="btn-indicator">[ ]</span> frameworks/ ({
+                categoriesCount.frameworks || 0
+              })
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
   <section class="tools-header">
     <div class="section-header-code">
-      <span class="syntax-keyword">import</span> &#123; <span class="syntax-fn">developerToolkit</span> &#125; <span class="syntax-keyword">from</span> <span class="syntax-string">'hadercode/tools'</span>;
+      <span class="syntax-keyword">import</span> &#123; <span class="syntax-fn"
+        >developerToolkit</span
+      > &#125; <span class="syntax-keyword">from</span>
+      <span class="syntax-string">'hadercode/tools'</span>;
     </div>
-    <h1 class="header-title">Herramientas & Hojas de Ruta</h1>
+    <h1 class="header-title">Tools & <br /> Roadmap</h1>
     <p class="header-desc">
-      Un compendio interactivo de recursos técnicos, utilidades de desarrollo y guías de aprendizaje estructuradas para potenciar tu crecimiento como ingeniero de software.
+      Un compendio interactivo de recursos técnicos, utilidades de desarrollo y
+      guías de aprendizaje estructuradas para potenciar tu crecimiento como
+      ingeniero de software.
     </p>
   </section>
 
   <!-- Pestañas Principales (Tabs) -->
   <div class="tabs-header mono">
-    <button class="tab-trigger active hover-link" data-target="toolkit" data-cursor-expand>
+    <button
+      class="tab-trigger active hover-link"
+      data-target="toolkit"
+      data-cursor-expand
+    >
       <span class="num">[01]</span> toolkit.env
     </button>
-    <button class="tab-trigger hover-link" data-target="roadmaps" data-cursor-expand>
+    <button
+      class="tab-trigger hover-link"
+      data-target="roadmaps"
+      data-cursor-expand
+    >
       <span class="num">[02]</span> roadmaps.sh
     </button>
   </div>
 
   <!-- PANELES DE CONTENIDO -->
   <div class="tab-panels-wrapper">
-    
     <!-- PANEL 1: CAJA DE HERRAMIENTAS -->
     <div id="toolkit-tab-content" class="tab-panel active">
       <div class="tools-page-grid">
@@ -372,7 +175,9 @@ const totalToolsCount = tools.length;
                     <span class="tree-line">├──</span>
                     <span class="btn-indicator">[ ]</span>
                     <span class="btn-name">plugins/</span>
-                    <span class="btn-count">({categoriesCount.plugins || 0})</span>
+                    <span class="btn-count"
+                      >({categoriesCount.plugins || 0})</span
+                    >
                   </button>
                 </li>
                 <li>
@@ -384,7 +189,9 @@ const totalToolsCount = tools.length;
                     <span class="tree-line">├──</span>
                     <span class="btn-indicator">[ ]</span>
                     <span class="btn-name">extensiones/</span>
-                    <span class="btn-count">({categoriesCount.extensiones || 0})</span>
+                    <span class="btn-count"
+                      >({categoriesCount.extensiones || 0})</span
+                    >
                   </button>
                 </li>
                 <li>
@@ -396,7 +203,9 @@ const totalToolsCount = tools.length;
                     <span class="tree-line">├──</span>
                     <span class="btn-indicator">[ ]</span>
                     <span class="btn-name">componentes/</span>
-                    <span class="btn-count">({categoriesCount.componentes || 0})</span>
+                    <span class="btn-count"
+                      >({categoriesCount.componentes || 0})</span
+                    >
                   </button>
                 </li>
                 <li>
@@ -408,7 +217,9 @@ const totalToolsCount = tools.length;
                     <span class="tree-line">└──</span>
                     <span class="btn-indicator">[ ]</span>
                     <span class="btn-name">frameworks/</span>
-                    <span class="btn-count">({categoriesCount.frameworks || 0})</span>
+                    <span class="btn-count"
+                      >({categoriesCount.frameworks || 0})</span
+                    >
                   </button>
                 </li>
               </ul>
@@ -426,15 +237,21 @@ const totalToolsCount = tools.length;
                   data-category={tool.category}
                 >
                   <div class="card-header">
-                    <span class="card-num mono">({String(index + 1).padStart(2, "0")})</span>
-                    <span class="card-category mono">//{tool.category.toUpperCase()}</span>
+                    <span class="card-num mono">
+                      ({String(index + 1).padStart(2, "0")})
+                    </span>
+                    <span class="card-category mono">
+                      //{tool.category.toUpperCase()}
+                    </span>
                   </div>
                   <div class="card-body">
                     <h3 class="card-name">{tool.name}</h3>
                     <p class="card-desc">{tool.description}</p>
                     <div class="card-tags">
                       {tool.tags.map((tag) => (
-                        <span class="card-tag mono">tech::{tag.toLowerCase()}</span>
+                        <span class="card-tag mono">
+                          tech::{tag.toLowerCase()}
+                        </span>
                       ))}
                     </div>
                   </div>
@@ -460,7 +277,8 @@ const totalToolsCount = tools.length;
             style="display: none; opacity: 0; transition: opacity 0.3s ease;"
           >
             <p class="mono">
-              // NO_TOOLS_FOUND: no se encontraron herramientas en esta categoría.
+              // NO_TOOLS_FOUND: no se encontraron herramientas en esta
+              categoría.
             </p>
           </div>
         </div>
@@ -494,7 +312,9 @@ const totalToolsCount = tools.length;
                 id={`roadmap-wrapper-${rm.id}`}
               >
                 <div class="roadmap-info-header">
-                  <h2 class="roadmap-title mono">// {rm.id.toUpperCase()}_PATH</h2>
+                  <h2 class="roadmap-title mono">
+                    // {rm.id.toUpperCase()}_PATH
+                  </h2>
                   <p class="roadmap-description">{rm.description}</p>
                 </div>
 
@@ -505,7 +325,7 @@ const totalToolsCount = tools.length;
                       <div class="timeline-step mono">{st.step}</div>
                       <h3 class="timeline-node-title">{st.title}</h3>
                       <p class="timeline-desc">{st.desc}</p>
-                      
+
                       <div class="timeline-meta">
                         <div class="meta-list">
                           <span class="meta-label mono">concepts:</span>
@@ -516,7 +336,9 @@ const totalToolsCount = tools.length;
                         <div class="meta-list">
                           <span class="meta-label mono">resources:</span>
                           {st.resources.map((resource) => (
-                            <span class="meta-badge highlight-badge mono">{resource}</span>
+                            <span class="meta-badge highlight-badge mono">
+                              {resource}
+                            </span>
                           ))}
                         </div>
                       </div>
@@ -529,501 +351,10 @@ const totalToolsCount = tools.length;
         </div>
       </div>
     </div>
-
   </div>
 </Layout>
 
-<style>
-  .tools-header {
-    margin-bottom: 3rem;
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-    max-width: 800px;
-  }
 
-  .header-title {
-    font-size: clamp(3rem, 6vw, 5rem);
-    text-transform: uppercase;
-    line-height: 1;
-  }
-
-  .header-desc {
-    font-size: 1.15rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
-  }
-
-  /* Pestañas de Navegación */
-  .tabs-header {
-    display: flex;
-    gap: 1.5rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    padding-bottom: 1rem;
-    margin-bottom: 4rem;
-  }
-
-  .tab-trigger {
-    background: none;
-    border: none;
-    font-family: var(--font-mono);
-    font-size: 1.1rem;
-    font-weight: 700;
-    color: var(--text-secondary);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    border-radius: 4px;
-    transition: color 0.2s ease, background-color 0.2s ease;
-  }
-
-  .tab-trigger:hover {
-    color: var(--text-primary);
-  }
-
-  .tab-trigger.active {
-    color: var(--accent-primary);
-    background-color: rgba(212, 255, 63, 0.04);
-  }
-
-  .tab-trigger .num {
-    opacity: 0.5;
-    font-size: 0.9rem;
-  }
-
-  /* Paneles de Contenido */
-  .tab-panel {
-    display: none;
-  }
-
-  .tab-panel.active {
-    display: block;
-    animation: tabFadeIn 0.4s ease forwards;
-  }
-
-  @keyframes tabFadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(8px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* Page Grid Layout */
-  .tools-page-grid {
-    display: grid;
-    grid-template-columns: 280px 1fr;
-    gap: 4rem;
-    align-items: start;
-  }
-
-  /* Sidebar styling */
-  .tools-sidebar {
-    position: relative;
-  }
-
-  .sidebar-sticky {
-    position: sticky;
-    top: 8rem;
-  }
-
-  .category-box {
-    background-color: var(--bg-secondary);
-    border: 1px solid rgba(255, 255, 255, 0.03);
-    border-radius: 8px;
-    padding: 1.5rem;
-  }
-
-  .terminal-cmd {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    margin-bottom: 1.25rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-    padding-bottom: 0.75rem;
-  }
-
-  .category-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 0.85rem;
-  }
-
-  .category-btn {
-    background: none;
-    border: none;
-    color: var(--text-secondary);
-    font-family: var(--font-mono);
-    font-size: 0.9rem;
-    text-align: left;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    transition: color 0.2s ease;
-  }
-
-  .category-btn:hover {
-    color: var(--text-primary);
-  }
-
-  .category-btn.active {
-    color: var(--accent-primary);
-  }
-
-  .tree-line {
-    opacity: 0.3;
-    margin-right: 0.5rem;
-  }
-
-  .btn-indicator {
-    margin-right: 0.5rem;
-    font-weight: bold;
-  }
-
-  .btn-name {
-    flex-grow: 1;
-  }
-
-  .btn-count {
-    opacity: 0.5;
-    font-size: 0.8rem;
-    margin-left: 0.5rem;
-  }
-
-  /* Tools List and Cards Grid */
-  .tools-list-container {
-    width: 100%;
-  }
-
-  .tools-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
-    gap: 2rem;
-  }
-
-  .tool-card {
-    background-color: var(--bg-secondary);
-    border: 1px solid rgba(255, 255, 255, 0.03);
-    border-radius: 8px;
-    padding: 2rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    min-height: 280px;
-    transition:
-      border-color 0.3s ease,
-      transform 0.3s var(--ease-out-expo),
-      opacity 0.3s ease;
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .tool-card:hover {
-    border-color: rgba(255, 255, 255, 0.08);
-    transform: translateY(-4px);
-  }
-
-  .tool-card.featured {
-    border: 1px solid rgba(212, 255, 63, 0.1);
-    background: linear-gradient(
-      135deg,
-      var(--bg-secondary) 0%,
-      rgba(212, 255, 63, 0.01) 100%
-    );
-  }
-
-  .tool-card.featured:hover {
-    border-color: rgba(212, 255, 63, 0.25);
-  }
-
-  .card-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-    padding-bottom: 0.75rem;
-    margin-bottom: 1.25rem;
-  }
-
-  .card-num {
-    font-size: 0.85rem;
-    color: var(--accent-primary);
-  }
-
-  .card-category {
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    letter-spacing: 0.05em;
-  }
-
-  .card-name {
-    font-family: var(--font-display);
-    font-size: 1.4rem;
-    font-weight: 800;
-    color: var(--text-primary);
-    line-height: 1.2;
-    text-transform: uppercase;
-  }
-
-  .card-desc {
-    font-size: 0.95rem;
-    color: var(--text-secondary);
-    line-height: 1.5;
-    margin-top: 0.75rem;
-    margin-bottom: 1.5rem;
-  }
-
-  .card-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    margin-bottom: 2rem;
-  }
-
-  .card-tag {
-    font-size: 0.75rem;
-    color: var(--accent-secondary);
-    background-color: rgba(255, 255, 255, 0.02);
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-    border: 1px solid rgba(255, 255, 255, 0.02);
-  }
-
-  .card-action {
-    border-top: 1px dashed rgba(255, 255, 255, 0.05);
-    padding-top: 1.25rem;
-  }
-
-  .action-btn {
-    font-size: 0.85rem;
-    color: var(--text-primary);
-    text-decoration: none;
-    display: inline-block;
-    transition: color 0.2s ease;
-  }
-
-  .action-btn:hover {
-    color: var(--accent-primary);
-  }
-
-  /* No results message */
-  .no-results-message {
-    padding: 4rem 2rem;
-    text-align: center;
-    border: 1px dashed rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    color: var(--text-secondary);
-  }
-
-  /* --- SECCION RUTAS DE APRENDIZAJE --- */
-  .roadmaps-layout {
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-  }
-
-  /* Selector de Roadmaps */
-  .roadmap-selector {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
-    padding-bottom: 1.5rem;
-  }
-
-  .roadmap-selector-btn {
-    background: var(--bg-secondary);
-    border: 1px solid rgba(255, 255, 255, 0.03);
-    color: var(--text-secondary);
-    font-family: var(--font-mono);
-    font-size: 0.85rem;
-    padding: 0.5rem 1.25rem;
-    border-radius: 4px;
-    cursor: pointer;
-    transition:
-      color 0.2s ease,
-      border-color 0.2s ease,
-      background-color 0.2s ease;
-  }
-
-  .roadmap-selector-btn:hover {
-    color: var(--text-primary);
-    border-color: rgba(255, 255, 255, 0.1);
-  }
-
-  .roadmap-selector-btn.active {
-    color: var(--accent-primary);
-    border-color: rgba(212, 255, 63, 0.15);
-    background-color: rgba(212, 255, 63, 0.02);
-  }
-
-  /* Timeline de Roadmaps */
-  .roadmap-timeline-wrapper {
-    display: none;
-  }
-
-  .roadmap-timeline-wrapper.active {
-    display: block;
-    animation: tabFadeIn 0.4s ease forwards;
-  }
-
-  .roadmap-info-header {
-    margin-bottom: 3.5rem;
-    max-width: 800px;
-  }
-
-  .roadmap-title {
-    font-size: 1.4rem;
-    color: var(--accent-primary);
-    margin-bottom: 0.75rem;
-  }
-
-  .roadmap-description {
-    font-size: 1.1rem;
-    color: var(--text-secondary);
-    line-height: 1.5;
-  }
-
-  .timeline {
-    position: relative;
-    padding-left: 3rem;
-    border-left: 2px solid rgba(255, 255, 255, 0.03);
-    margin-left: 1.5rem;
-    display: flex;
-    flex-direction: column;
-    gap: 4rem;
-  }
-
-  .timeline-node {
-    position: relative;
-  }
-
-  .timeline-dot {
-    position: absolute;
-    left: calc(-3rem - 8px);
-    top: 0.25rem;
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background-color: var(--bg-primary);
-    border: 2px solid var(--text-secondary);
-    z-index: 2;
-    transition:
-      border-color 0.3s ease,
-      background-color 0.3s ease;
-  }
-
-  .timeline-node:hover .timeline-dot {
-    border-color: var(--accent-primary);
-    background-color: var(--accent-primary);
-  }
-
-  .timeline-step {
-    font-size: 0.8rem;
-    color: var(--accent-primary);
-    margin-bottom: 0.5rem;
-    font-weight: 700;
-  }
-
-  .timeline-node-title {
-    font-family: var(--font-display);
-    font-size: 1.6rem;
-    font-weight: 800;
-    color: var(--text-primary);
-    text-transform: uppercase;
-    line-height: 1.2;
-  }
-
-  .timeline-desc {
-    font-size: 1rem;
-    color: var(--text-secondary);
-    line-height: 1.6;
-    margin-top: 0.75rem;
-    max-width: 850px;
-  }
-
-  .timeline-meta {
-    display: flex;
-    flex-direction: column;
-    gap: 0.75rem;
-    margin-top: 1.5rem;
-  }
-
-  .meta-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-    align-items: center;
-  }
-
-  .meta-label {
-    font-size: 0.75rem;
-    color: var(--text-secondary);
-    width: 80px;
-    opacity: 0.6;
-  }
-
-  .meta-badge {
-    font-size: 0.75rem;
-    color: var(--text-primary);
-    background-color: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.03);
-    padding: 0.15rem 0.5rem;
-    border-radius: 4px;
-  }
-
-  .meta-badge.highlight-badge {
-    color: var(--accent-secondary);
-    border-color: rgba(212, 255, 63, 0.03);
-  }
-
-  /* Animations */
-  .animate-fade-in {
-    animation: fadeIn 0.4s ease forwards;
-  }
-
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(10px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  /* Responsive styling */
-  @media (max-width: 900px) {
-    .tools-page-grid {
-      grid-template-columns: 1fr;
-      gap: 3rem;
-    }
-
-    .sidebar-sticky {
-      position: static;
-    }
-
-    .tools-grid {
-      grid-template-columns: 1fr;
-    }
-
-    .timeline {
-      padding-left: 2rem;
-      margin-left: 0.5rem;
-    }
-
-    .timeline-dot {
-      left: calc(-2rem - 8px);
-    }
-  }
-</style>
 
 <script>
   function setupToolsAndRoadmaps() {
@@ -1051,67 +382,125 @@ const totalToolsCount = tools.length;
 
     // 2. Control de Filtrado de la Caja de Herramientas
     const categoryButtons = document.querySelectorAll(".category-btn");
+    const modalCategoryButtons = document.querySelectorAll(
+      ".modal-category-btn",
+    );
     const toolCards = document.querySelectorAll(".tool-card");
     const noResultsMsg = document.getElementById("no-results");
+
+    // Modal elements
+    const mobileFilterBtn = document.getElementById("mobile-filter-btn");
+    const filterModal = document.getElementById("filter-modal");
+    const closeFilterModalBtn = document.getElementById("close-filter-modal");
+    const filterModalBackdrop = document.getElementById(
+      "filter-modal-backdrop",
+    );
+
+    // Modal open/close handlers
+    if (mobileFilterBtn && filterModal) {
+      mobileFilterBtn.addEventListener("click", () => {
+        filterModal.classList.add("active");
+        document.body.style.overflow = "hidden"; // block background scroll
+      });
+
+      const closeModal = () => {
+        filterModal.classList.remove("active");
+        document.body.style.overflow = "";
+      };
+
+      if (closeFilterModalBtn)
+        closeFilterModalBtn.addEventListener("click", closeModal);
+      if (filterModalBackdrop)
+        filterModalBackdrop.addEventListener("click", closeModal);
+
+      // Close modal on escape key
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && filterModal.classList.contains("active")) {
+          closeModal();
+        }
+      });
+    }
+
+    function applyCategoryFilter(category: any) {
+      // Sync active state for BOTH sidebar buttons and modal buttons
+      const allFilterBtns = [
+        ...Array.from(categoryButtons),
+        ...Array.from(modalCategoryButtons),
+      ];
+
+      allFilterBtns.forEach((btn) => {
+        const btnCategory = btn.getAttribute("data-category");
+        const indicator = btn.querySelector(".btn-indicator");
+
+        if (btnCategory === category) {
+          btn.classList.add("active");
+          if (indicator) indicator.textContent = "[*]";
+        } else {
+          btn.classList.remove("active");
+          if (indicator) indicator.textContent = "[ ]";
+        }
+      });
+
+      // Filter tools grid
+      let visibleCount = 0;
+      toolCards.forEach((card) => {
+        const cardCategory = card.getAttribute("data-category");
+        const matches = category === "all" || cardCategory === category;
+        const htmlCard = card as HTMLElement;
+
+        if (matches) {
+          htmlCard.style.display = "flex";
+          htmlCard.offsetHeight; // force reflow
+          htmlCard.style.opacity = "1";
+          htmlCard.style.transform = "translateY(0)";
+          visibleCount++;
+        } else {
+          htmlCard.style.opacity = "0";
+          htmlCard.style.transform = "translateY(10px)";
+          setTimeout(() => {
+            if (htmlCard.style.opacity === "0") {
+              htmlCard.style.display = "none";
+            }
+          }, 300);
+        }
+      });
+
+      // Show/hide no results message
+      if (noResultsMsg) {
+        if (visibleCount === 0) {
+          setTimeout(() => {
+            if (visibleCount === 0) {
+              noResultsMsg.style.display = "block";
+              noResultsMsg.offsetHeight;
+              noResultsMsg.style.opacity = "1";
+            }
+          }, 300);
+        } else {
+          noResultsMsg.style.opacity = "0";
+          noResultsMsg.style.display = "none";
+        }
+      }
+    }
 
     if (categoryButtons.length && toolCards.length) {
       categoryButtons.forEach((button) => {
         button.addEventListener("click", () => {
           const category = button.getAttribute("data-category");
+          if (category) applyCategoryFilter(category);
+        });
+      });
+    }
 
-          // Reset category indicators
-          categoryButtons.forEach((btn) => {
-            btn.classList.remove("active");
-            const indicator = btn.querySelector(".btn-indicator");
-            if (indicator) {
-              indicator.textContent = "[ ]";
-            }
-          });
-
-          // Set active category indicator
-          button.classList.add("active");
-          const activeIndicator = button.querySelector(".btn-indicator");
-          if (activeIndicator) {
-            activeIndicator.textContent = "[*]";
-          }
-
-          // Filter tools grid
-          let visibleCount = 0;
-          toolCards.forEach((card) => {
-            const cardCategory = card.getAttribute("data-category");
-            const matches = category === "all" || cardCategory === category;
-            const htmlCard = card as HTMLElement;
-
-            if (matches) {
-              htmlCard.style.display = "flex";
-              htmlCard.offsetHeight; // force reflow
-              htmlCard.style.opacity = "1";
-              htmlCard.style.transform = "translateY(0)";
-              visibleCount++;
-            } else {
-              htmlCard.style.opacity = "0";
-              htmlCard.style.transform = "translateY(10px)";
-              setTimeout(() => {
-                if (htmlCard.style.opacity === "0") {
-                  htmlCard.style.display = "none";
-                }
-              }, 300);
-            }
-          });
-
-          // Show/hide no results message
-          if (noResultsMsg) {
-            if (visibleCount === 0) {
-              setTimeout(() => {
-                if (visibleCount === 0) {
-                  noResultsMsg.style.display = "block";
-                  noResultsMsg.offsetHeight;
-                  noResultsMsg.style.opacity = "1";
-                }
-              }, 300);
-            } else {
-              noResultsMsg.style.opacity = "0";
-              noResultsMsg.style.display = "none";
+    if (modalCategoryButtons.length && toolCards.length) {
+      modalCategoryButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          const category = button.getAttribute("data-category");
+          if (category) {
+            applyCategoryFilter(category);
+            // Close modal after selection
+            if (filterModal) {
+              filterModal.classList.remove("active");
+              document.body.style.overflow = "";
             }
           }
         });
@@ -1119,8 +508,12 @@ const totalToolsCount = tools.length;
     }
 
     // 3. Control de Selector de Hojas de Ruta (Roadmaps Switching)
-    const roadmapSelectorButtons = document.querySelectorAll(".roadmap-selector-btn");
-    const roadmapWrappers = document.querySelectorAll(".roadmap-timeline-wrapper");
+    const roadmapSelectorButtons = document.querySelectorAll(
+      ".roadmap-selector-btn",
+    );
+    const roadmapWrappers = document.querySelectorAll(
+      ".roadmap-timeline-wrapper",
+    );
 
     if (roadmapSelectorButtons.length && roadmapWrappers.length) {
       roadmapSelectorButtons.forEach((btn) => {
@@ -1144,20 +537,24 @@ const totalToolsCount = tools.length;
 
     // 4. Leer parámetros de URL para auto-inicializar filtros o pestañas
     const params = new URLSearchParams(window.location.search);
-    
+
     // Auto-activar la pestaña de roadmaps si viene en la query '?tab=roadmaps' o '?roadmap=...'
     const tabParam = params.get("tab");
     const roadmapParam = params.get("roadmap");
-    
+
     if (tabParam === "roadmaps" || roadmapParam) {
-      const roadmapsTabTrigger = Array.from(tabTriggers).find((t) => t.getAttribute("data-target") === "roadmaps");
+      const roadmapsTabTrigger = Array.from(tabTriggers).find(
+        (t) => t.getAttribute("data-target") === "roadmaps",
+      );
       if (roadmapsTabTrigger) {
         (roadmapsTabTrigger as HTMLButtonElement).click();
       }
-      
+
       if (roadmapParam) {
         const activeRoadmapBtn = Array.from(roadmapSelectorButtons).find(
-          (btn) => btn.getAttribute("data-roadmap")?.toLowerCase() === roadmapParam.toLowerCase()
+          (btn) =>
+            btn.getAttribute("data-roadmap")?.toLowerCase() ===
+            roadmapParam.toLowerCase(),
         );
         if (activeRoadmapBtn) {
           (activeRoadmapBtn as HTMLButtonElement).click();
@@ -1168,7 +565,9 @@ const totalToolsCount = tools.length;
       const categoryParam = params.get("category");
       if (categoryParam) {
         const activeCategoryBtn = Array.from(categoryButtons).find(
-          (btn) => btn.getAttribute("data-category")?.toLowerCase() === categoryParam.toLowerCase()
+          (btn) =>
+            btn.getAttribute("data-category")?.toLowerCase() ===
+            categoryParam.toLowerCase(),
         );
         if (activeCategoryBtn) {
           (activeCategoryBtn as HTMLButtonElement).click();

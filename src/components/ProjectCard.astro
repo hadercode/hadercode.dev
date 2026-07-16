@@ -169,12 +169,44 @@ const { title, description, tags, image, link } = Astro.props;
     }
   }
 
-  @media (max-width: 768px) {
+  @media (max-width: 900px) {
     .project-card-container {
       grid-column: span 12;
     }
     .project-card-container:nth-child(even) {
       transform: none;
+    }
+    .card-image {
+      filter: grayscale(0%);
+    }
+  }
+
+  @media (max-width: 480px) {
+    .project-card {
+      border-radius: 12px;
+    }
+    .card-content {
+      padding: 1.25rem;
+      gap: 0.5rem;
+    }
+    .card-title {
+      font-size: 1.35rem;
+    }
+    .card-desc {
+      font-size: 0.85rem;
+    }
+    .tags-container {
+      top: 0.75rem;
+      left: 0.75rem;
+      gap: 0.35rem;
+    }
+    .tag {
+      font-size: 0.65rem;
+      padding: 0.15rem 0.5rem;
+    }
+    .card-action {
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
     }
   }
 </style>

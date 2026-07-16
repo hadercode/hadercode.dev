@@ -1,0 +1,326 @@
+  /* Animación de la barra de progreso de lectura */
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background-color: var(--accent-primary);
+    width: 0%;
+    z-index: 105;
+    transition: width 0.1s ease-out;
+  }
+
+  .post-layout-wrapper {
+    padding: 10rem 0 8rem 0;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .post-content-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  /* Sidebar */
+  .post-sidebar {
+    position: sticky;
+    top: 120px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .sidebar-block {
+    padding: 2rem 1.5rem;
+    background-color: var(--bg-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: 6px;
+    backdrop-filter: blur(10px);
+  }
+
+  .sidebar-header {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+  }
+
+  .terminal-cmd {
+    font-size: 0.8rem;
+    color: var(--accent-secondary);
+    margin-bottom: 1rem;
+    opacity: 0.8;
+  }
+
+  .category-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .category-btn {
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.35rem 0;
+    transition: color 0.2s var(--ease-out-expo);
+  }
+
+  .tree-line {
+    color: rgba(255, 255, 255, 0.15);
+  }
+
+  .btn-indicator {
+    color: var(--text-secondary);
+    transition: color 0.2s var(--ease-out-expo);
+  }
+
+  .btn-name {
+    color: var(--text-secondary);
+    transition: color 0.2s var(--ease-out-expo);
+  }
+
+  .btn-count {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.75rem;
+    transition: color 0.2s var(--ease-out-expo);
+  }
+
+  /* Hover & Active States */
+  .category-btn:hover {
+    color: var(--accent-primary);
+  }
+
+  .category-btn:hover .btn-name {
+    color: var(--accent-primary);
+  }
+
+  .category-btn:hover .btn-indicator {
+    color: var(--accent-primary);
+  }
+
+  .category-btn.active .btn-indicator {
+    color: var(--accent-primary);
+  }
+
+  .category-btn.active .btn-name {
+    color: var(--text-primary);
+    font-weight: 700;
+  }
+
+  .category-btn.active .btn-count {
+    color: var(--accent-secondary);
+  }
+
+  /* Search Block */
+  .search-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--bg-primary);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+
+  .prompt {
+    color: var(--accent-primary);
+    font-weight: 700;
+  }
+
+  .grep-input {
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    width: 100%;
+  }
+
+  .grep-input::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+  }
+
+  .search-stats {
+    font-size: 0.75rem;
+    color: var(--accent-secondary);
+  }
+
+  /* Style for highlighted marks */
+  mark.highlight {
+    background-color: var(--accent-primary);
+    color: var(--bg-primary);
+    border-radius: 2px;
+    padding: 0 0.2rem;
+  }
+
+  .post-article {
+    padding: 0;
+    max-width: 800px;
+    width: 100%;
+  }
+
+  .post-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 3rem;
+  }
+
+  .back-link {
+    font-size: 0.85rem;
+    color: var(--accent-primary);
+    align-self: flex-start;
+  }
+
+  .post-meta {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .post-title {
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .post-tag {
+    font-size: 0.8rem;
+    color: var(--accent-secondary);
+    background-color: var(--bg-secondary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+  }
+
+  .post-image-wrapper {
+    margin-top: 2rem;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .post-hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Estilos del Contenido Markdown */
+  .post-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .post-content p {
+    color: var(--text-primary);
+    opacity: 0.9;
+  }
+
+  .post-content h2 {
+    font-size: 1.8rem;
+    margin-top: 2.5rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    border-left: 3px solid var(--accent-primary);
+    padding-left: 1rem;
+  }
+
+  .post-content h3 {
+    font-size: 1.4rem;
+    margin-top: 2rem;
+    color: var(--text-primary);
+  }
+
+  .post-content ul, .post-content ol {
+    padding-left: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .post-content li {
+    color: var(--text-primary);
+  }
+
+  .post-content blockquote {
+    border-left: 4px solid var(--accent-secondary);
+    padding: 0.5rem 0 0.5rem 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    background-color: var(--bg-secondary);
+    border-radius: 0 8px 8px 0;
+  }
+
+  .post-content blockquote p {
+    color: var(--accent-secondary);
+  }
+
+  /* Estilos para código dentro del blog */
+  .post-content pre {
+    padding: 1.5rem;
+    border-radius: 8px;
+    background-color: var(--bg-secondary) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  .post-content code {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    color: var(--accent-primary);
+  }
+
+  .post-content pre code {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    color: inherit;
+  }
+
+  @media (max-width: 1000px) {
+    .post-content-layout {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .post-sidebar {
+      position: relative;
+      top: 0;
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .post-layout-wrapper {
+      padding: 8rem 1rem 6rem 1rem;
+    }
+  }
