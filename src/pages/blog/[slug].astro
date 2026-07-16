@@ -1,0 +1,593 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.id },
+    props: post,
+  }));
+}
+
+const post = Astro.props;
+const { Content } = await render(post);
+
+// Obtener todas las publicaciones para las categorías del sidebar
+const posts = await getCollection('blog', ({ data }) => !data.draft);
+const categoriesCount = posts.reduce((acc, p) => {
+  const cat = p.data.category || 'General';
+  acc[cat] = (acc[cat] || 0) + 1;
+  return acc;
+}, {} as Record<string, number>);
+
+const categoriesList = Object.entries(categoriesCount).map(([name, count]) => ({
+  name,
+  count
+})).sort((a, b) => a.name.localeCompare(b.name));
+
+const totalPostsCount = posts.length;
+---
+
+<Layout 
+  title={`${post.data.title} — HaderCode`}
+  description={post.data.description}
+  image={post.data.image}
+  ogType="article"
+  publishedTime={post.data.pubDate}
+  tags={post.data.tags}
+>
+  <!-- Scroll Progress Bar -->
+  <div class="scroll-progress" id="scroll-bar"></div>
+
+  <!-- JSON-LD Datos Estructurados -->
+  <script type="application/ld+json" is:inline set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.data.title,
+    "description": post.data.description,
+    "image": post.data.image ? new URL(post.data.image, Astro.site || Astro.url.origin).href : undefined,
+    "datePublished": post.data.pubDate.toISOString(),
+    "author": {
+      "@type": "Person",
+      "name": "HaderCode",
+      "url": new URL('/', Astro.site || Astro.url.origin).href
+    }
+  })} />
+
+  <div class="post-layout-wrapper">
+    <div class="post-content-layout">
+      <!-- Sidebar de Navegación y Búsqueda -->
+      <aside class="post-sidebar">
+        <!-- Bloque de Categorías -->
+        <div class="sidebar-block">
+          <div class="sidebar-header mono">
+            <span>// FILTER_BY_CATEGORY</span>
+          </div>
+          <div class="terminal-tree">
+            <div class="terminal-cmd mono">$ ls -F content/blog/</div>
+            <ul class="category-list mono">
+              <li>
+                <a href="/blog?category=all" class="category-btn hover-link" data-cursor-expand>
+                  <span class="tree-line">├──</span>
+                  <span class="btn-indicator">[ ]</span> 
+                  <span class="btn-name">todos/</span>
+                  <span class="btn-count">({totalPostsCount})</span>
+                </a>
+              </li>
+              {categoriesList.map((cat, idx) => {
+                const isLast = idx === categoriesList.length - 1;
+                const treeConnector = isLast ? '└──' : '├──';
+                const isActive = post.data.category === cat.name;
+                return (
+                  <li>
+                    <a href={`/blog?category=${cat.name}`} class={`category-btn hover-link ${isActive ? 'active' : ''}`} data-cursor-expand>
+                      <span class="tree-line">{treeConnector}</span>
+                      <span class="btn-indicator">{isActive ? '[*]' : '[ ]'}</span> 
+                      <span class="btn-name">{cat.name.toLowerCase()}/</span>
+                      <span class="btn-count">({cat.count})</span>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
+
+        <!-- Bloque del Buscador grep -->
+        <div class="sidebar-block search-block">
+          <div class="sidebar-header mono">
+            <span>// SEARCH_IN_PAGE</span>
+          </div>
+          <div class="terminal-search mono">
+            <div class="terminal-cmd">$ grep -in <span class="syntax-keyword">"term"</span> post.md</div>
+            <div class="search-input-wrapper">
+              <span class="prompt">$</span>
+              <input type="text" id="grep-input" class="grep-input" placeholder="buscar texto..." autocomplete="off" data-cursor-expand />
+            </div>
+            <div id="search-stats" class="search-stats" style="display: none; opacity: 0; transition: opacity 0.2s ease;">
+              <span id="match-count">0 coincidencia(s)</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Artículo -->
+      <article class="post-article">
+        <header class="post-header">
+          <a href="/blog" class="back-link hover-link mono" data-cursor-expand>
+            cd ..
+          </a>
+          
+          <div class="terminal-log-command mono" style="margin-top: 1rem; color: var(--accent-secondary);">
+            <span style="color: var(--accent-primary);">$</span> cat journal/{post.id}.md
+          </div>
+          
+          <div class="post-meta mono">
+            <span>// PUBLISHED_ON:</span>
+            <time datetime={post.data.pubDate.toISOString()}>
+              {post.data.pubDate.toLocaleDateString('es-ES', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+              }).toUpperCase()}
+            </time>
+          </div>
+
+          <h1 class="post-title">{post.data.title}</h1>
+          
+          <div class="post-tags">
+            {post.data.tags.map(tag => (
+              <span class="post-tag mono">tag::{tag}</span>
+            ))}
+          </div>
+          
+          {post.data.image && (
+            <div class="post-image-wrapper">
+              <img src={post.data.image} alt={post.data.title} class="post-hero-image" />
+            </div>
+          )}
+        </header>
+
+        <div class="post-content">
+          <Content />
+        </div>
+      </article>
+    </div>
+  </div>
+</Layout>
+
+<style is:global>
+  /* Animación de la barra de progreso de lectura */
+  .scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background-color: var(--accent-primary);
+    width: 0%;
+    z-index: 105;
+    transition: width 0.1s ease-out;
+  }
+
+  .post-layout-wrapper {
+    padding: 10rem 0 8rem 0;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .post-content-layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  /* Sidebar */
+  .post-sidebar {
+    position: sticky;
+    top: 120px;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .sidebar-block {
+    padding: 2rem 1.5rem;
+    background-color: var(--bg-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: 6px;
+    backdrop-filter: blur(10px);
+  }
+
+  .sidebar-header {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.05em;
+    font-weight: 700;
+  }
+
+  .terminal-cmd {
+    font-size: 0.8rem;
+    color: var(--accent-secondary);
+    margin-bottom: 1rem;
+    opacity: 0.8;
+  }
+
+  .category-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .category-btn {
+    color: var(--text-secondary);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    width: 100%;
+    padding: 0.35rem 0;
+    transition: color 0.2s var(--ease-out-expo);
+  }
+
+  .tree-line {
+    color: rgba(255, 255, 255, 0.15);
+  }
+
+  .btn-indicator {
+    color: var(--text-secondary);
+    transition: color 0.2s var(--ease-out-expo);
+  }
+
+  .btn-name {
+    color: var(--text-secondary);
+    transition: color 0.2s var(--ease-out-expo);
+  }
+
+  .btn-count {
+    color: rgba(255, 255, 255, 0.3);
+    font-size: 0.75rem;
+    transition: color 0.2s var(--ease-out-expo);
+  }
+
+  /* Hover & Active States */
+  .category-btn:hover {
+    color: var(--accent-primary);
+  }
+
+  .category-btn:hover .btn-name {
+    color: var(--accent-primary);
+  }
+
+  .category-btn:hover .btn-indicator {
+    color: var(--accent-primary);
+  }
+
+  .category-btn.active .btn-indicator {
+    color: var(--accent-primary);
+  }
+
+  .category-btn.active .btn-name {
+    color: var(--text-primary);
+    font-weight: 700;
+  }
+
+  .category-btn.active .btn-count {
+    color: var(--accent-secondary);
+  }
+
+  /* Search Block */
+  .search-input-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background-color: var(--bg-primary);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    padding: 0.5rem 0.75rem;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+  }
+
+  .prompt {
+    color: var(--accent-primary);
+    font-weight: 700;
+  }
+
+  .grep-input {
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text-primary);
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    width: 100%;
+  }
+
+  .grep-input::placeholder {
+    color: rgba(255, 255, 255, 0.2);
+  }
+
+  .search-stats {
+    font-size: 0.75rem;
+    color: var(--accent-secondary);
+  }
+
+  /* Style for highlighted marks */
+  mark.highlight {
+    background-color: var(--accent-primary);
+    color: var(--bg-primary);
+    border-radius: 2px;
+    padding: 0 0.2rem;
+  }
+
+  .post-article {
+    padding: 0;
+    max-width: 800px;
+    width: 100%;
+  }
+
+  .post-header {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 4rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    padding-bottom: 3rem;
+  }
+
+  .back-link {
+    font-size: 0.85rem;
+    color: var(--accent-primary);
+    align-self: flex-start;
+  }
+
+  .post-meta {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .post-title {
+    font-size: clamp(2.2rem, 5vw, 4rem);
+    line-height: 1.1;
+    text-transform: uppercase;
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .post-tag {
+    font-size: 0.8rem;
+    color: var(--accent-secondary);
+    background-color: var(--bg-secondary);
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+  }
+
+  .post-image-wrapper {
+    margin-top: 2rem;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .post-hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Estilos del Contenido Markdown */
+  .post-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--text-primary);
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .post-content p {
+    color: var(--text-primary);
+    opacity: 0.9;
+  }
+
+  .post-content h2 {
+    font-size: 1.8rem;
+    margin-top: 2.5rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    color: var(--text-primary);
+    border-left: 3px solid var(--accent-primary);
+    padding-left: 1rem;
+  }
+
+  .post-content h3 {
+    font-size: 1.4rem;
+    margin-top: 2rem;
+    color: var(--text-primary);
+  }
+
+  .post-content ul, .post-content ol {
+    padding-left: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .post-content li {
+    color: var(--text-primary);
+  }
+
+  .post-content blockquote {
+    border-left: 4px solid var(--accent-secondary);
+    padding: 0.5rem 0 0.5rem 1.5rem;
+    margin: 2rem 0;
+    font-style: italic;
+    background-color: var(--bg-secondary);
+    border-radius: 0 8px 8px 0;
+  }
+
+  .post-content blockquote p {
+    color: var(--accent-secondary);
+  }
+
+  /* Estilos para código dentro del blog */
+  .post-content pre {
+    padding: 1.5rem;
+    border-radius: 8px;
+    background-color: var(--bg-secondary) !important;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    overflow-x: auto;
+    margin: 1.5rem 0;
+  }
+
+  .post-content code {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    background-color: rgba(255, 255, 255, 0.05);
+    padding: 0.2rem 0.4rem;
+    border-radius: 4px;
+    color: var(--accent-primary);
+  }
+
+  .post-content pre code {
+    background-color: transparent;
+    padding: 0;
+    border-radius: 0;
+    color: inherit;
+  }
+
+  @media (max-width: 1000px) {
+    .post-content-layout {
+      grid-template-columns: 1fr;
+      gap: 3rem;
+    }
+
+    .post-sidebar {
+      position: relative;
+      top: 0;
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .post-layout-wrapper {
+      padding: 8rem 1rem 6rem 1rem;
+    }
+  }
+</style>
+
+<script>
+  function setupScrollProgress() {
+    const scrollBar = document.getElementById('scroll-bar');
+    if (!scrollBar) return;
+
+    window.addEventListener('scroll', () => {
+      const windowScroll = document.documentElement.scrollTop || document.body.scrollTop;
+      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+      const scrolled = (windowScroll / height) * 100;
+      scrollBar.style.width = scrolled + '%';
+    });
+  }
+
+  function setupSearch() {
+    const grepInput = document.getElementById('grep-input') as HTMLInputElement;
+    const postContent = document.querySelector('.post-content');
+    const searchStats = document.getElementById('search-stats');
+    const matchCount = document.getElementById('match-count');
+
+    if (!grepInput || !postContent) return;
+
+    let originalHTML = postContent.innerHTML;
+
+    // Helper to escape regex characters
+    function escapeRegExp(string: string) {
+      return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    }
+
+    grepInput.addEventListener('input', () => {
+      const query = grepInput.value;
+
+      // Clear highlights
+      postContent.innerHTML = originalHTML;
+
+      if (!query || query.trim().length < 2) {
+        if (searchStats) {
+          searchStats.style.opacity = '0';
+          setTimeout(() => {
+            searchStats.style.display = 'none';
+          }, 200);
+        }
+        return;
+      }
+
+      const escapedQuery = escapeRegExp(query);
+      const regex = new RegExp(`(${escapedQuery})`, 'gi');
+      let matches = 0;
+
+      // Walk text nodes to highlight matches
+      const walk = document.createTreeWalker(postContent, NodeFilter.SHOW_TEXT, null);
+      const textNodes: Node[] = [];
+      let currentNode;
+
+      while (currentNode = walk.nextNode()) {
+        const parentTag = currentNode.parentElement?.tagName.toUpperCase();
+        if (
+          parentTag === 'PRE' || 
+          parentTag === 'CODE' || 
+          parentTag === 'SCRIPT' || 
+          parentTag === 'STYLE' || 
+          parentTag === 'MARK'
+        ) {
+          continue;
+        }
+        if (regex.test(currentNode.nodeValue || '')) {
+          textNodes.push(currentNode);
+        }
+      }
+
+      textNodes.forEach(node => {
+        const text = node.nodeValue || '';
+        const nodeMatches = text.match(regex);
+        if (nodeMatches) {
+          matches += nodeMatches.length;
+        }
+
+        const span = document.createElement('span');
+        span.innerHTML = text.replace(regex, '<mark class="highlight">$1</mark>');
+        node.parentNode?.replaceChild(span, node);
+      });
+
+      // Update statistics
+      if (searchStats && matchCount) {
+        searchStats.style.display = 'block';
+        // force reflow
+        searchStats.offsetHeight;
+        searchStats.style.opacity = '1';
+        matchCount.textContent = `${matches} coincidencia${matches === 1 ? '' : 's'}`;
+      }
+    });
+
+    // Clear search input on navigation / restore original HTML state
+    document.addEventListener('astro:before-swap', () => {
+      if (postContent && originalHTML) {
+        postContent.innerHTML = originalHTML;
+      }
+    }, { once: true });
+  }
+
+  // Hook into Astro Page Load cycle
+  document.addEventListener('astro:page-load', () => {
+    setupScrollProgress();
+    setupSearch();
+  });
+</script>

@@ -1,0 +1,225 @@
+.contact-section {
+    padding: 12rem 0 8rem 0;
+}
+
+.contact-header {
+    max-width: 800px;
+    margin-bottom: 6rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.header-title {
+    font-size: clamp(3rem, 6vw, 5rem);
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+.header-desc {
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Grid Layout */
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 6rem;
+    align-items: start;
+}
+
+/* Left Column */
+.contact-info-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 4rem;
+}
+
+.info-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.block-title {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+}
+
+.block-link {
+    font-size: clamp(1.5rem, 3vw, 2.2rem);
+    font-weight: 800;
+    color: var(--text-primary);
+    line-height: 1.1;
+}
+
+.block-link:hover {
+    color: var(--accent-primary);
+}
+
+.block-text {
+    font-size: 1.2rem;
+    color: var(--text-primary);
+    font-weight: 500;
+}
+
+.block-subtext {
+    font-size: 0.85rem;
+    color: var(--accent-secondary);
+}
+
+.contact-socials {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5rem;
+    font-family: var(--font-mono);
+}
+
+.contact-socials a {
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.contact-socials a:hover {
+    color: var(--accent-primary);
+    text-decoration: underline;
+}
+
+/* Right Column (Form) */
+.contact-form-panel {
+    background-color: var(--bg-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    padding: 4rem;
+    border-radius: 12px;
+    /* Redondeado técnico */
+    position: relative;
+    overflow: hidden;
+    min-height: 520px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    transition:
+        opacity 0.4s ease,
+        transform 0.4s ease;
+}
+
+.contact-form.hidden {
+    opacity: 0;
+    transform: translateY(-20px);
+    pointer-events: none;
+    position: absolute;
+    width: calc(100% - 8rem);
+}
+
+
+.submit-btn {
+    align-self: flex-start;
+    margin-top: 1rem;
+}
+
+/* Terminal Loader & Success Screen */
+.terminal-loader {
+    display: none;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+    text-align: left;
+}
+
+.terminal-loader.active {
+    display: flex;
+    animation: fadeIn 0.4s ease forwards;
+}
+
+.terminal-loader-header {
+    background-color: rgba(255, 255, 255, 0.02);
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.loader-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--accent-primary);
+    display: inline-block;
+    animation: pulse 1s infinite alternate;
+}
+
+.loader-title {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+}
+
+.terminal-loader-body {
+    padding: 1.5rem;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    color: var(--text-primary);
+    overflow-y: auto;
+    max-height: 380px;
+}
+
+.terminal-loader-body p {
+    color: var(--text-primary);
+    margin-bottom: 0.35rem;
+}
+
+.terminal-loader-body .accent {
+    color: var(--accent-primary);
+}
+
+.terminal-loader-body .secondary {
+    color: var(--accent-secondary);
+}
+
+.terminal-loader-body .comment {
+    color: rgba(255, 255, 255, 0.3);
+    font-style: italic;
+}
+
+.terminal-loader-body .btn-magnetic {
+    margin-top: 1.5rem;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 900px) {
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 5rem;
+    }
+
+    .contact-form-panel {
+        padding: 3rem 2rem;
+    }
+
+    .contact-form.hidden {
+        width: calc(100% - 4rem);
+    }
+}

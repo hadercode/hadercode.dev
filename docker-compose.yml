@@ -1,0 +1,7 @@
+services:
+  web:
+    build: .
+    container_name: hadercode_portfolio
+    ports:
+      - "80:80"
+    restart: always

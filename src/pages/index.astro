@@ -1,0 +1,985 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+import TerminalHero from "../components/TerminalHero.astro";
+import { getCollection } from "astro:content";
+
+// Obtener proyectos destacados
+const allProjects = await getCollection("projects");
+const featuredProjects = allProjects
+  .filter((project) => project.data.featured)
+  .sort((a, b) => (a.data.order ?? 99) - (b.data.order ?? 99))
+  .slice(0, 2);
+
+// Obtener últimos posts de blog
+const allPosts = await getCollection("blog");
+const latestPosts = allPosts
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 2);
+---
+
+<Layout title="Ingeniero y Desarrollador de Software">
+  <!-- Hero Section -->
+  <section class="hero-section">
+    <div class="hero-content">
+      <div class="hero-text-panel">
+        <div class="hero-label text-reveal-container">
+          <span class="text-reveal-item mono"
+            >// CORE: FRONTEND ARCHITECTURE & DEV</span
+          >
+        </div>
+
+        <h1 class="hero-title">
+          <span class="text-reveal-container">
+            <span class="text-reveal-item">Código sólido,</span>
+          </span>
+          <br />
+          <span class="text-reveal-container">
+            <span class="text-reveal-item accent-text">arquitectura</span>
+          </span>
+          <br />
+          <span class="text-reveal-container">
+            <span class="text-reveal-item">de alto impacto.</span>
+          </span>
+        </h1>
+
+        <div class="hero-intro">
+          <p>
+            Construyo productos digitales e interfaces interactivas premium.
+            Escribo código estructurado y optimizo el rendimiento web a través
+            de arquitecturas modernas (como las islas de hidratación parcial en
+            Astro). Mi enfoque une el diseño minimalista riguroso con la
+            ingeniería limpia.
+          </p>
+          <div class="hero-actions">
+            <a href="/contact" class="btn-magnetic" data-cursor-expand>
+              <span>./contact_me.sh</span>
+            </a>
+            <a
+              href="/projects"
+              class="hover-link link-explore mono"
+              data-cursor-expand
+            >
+              inspect_projects() &rarr;
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-visual-panel">
+        <!-- Interactive Terminal Simulator -->
+        <TerminalHero />
+      </div>
+    </div>
+  </section>
+
+  <!-- Ticker / Infinite Marquee (Developer Concept) -->
+  <section class="marquee-section">
+    <div class="marquee-container">
+      <div class="marquee-content">
+        <div class="marquee-text">
+          &lt;Typescript /&gt; <span class="dot"></span>
+        </div>
+        <div class="marquee-text">
+          Islands Architecture <span class="dot"></span>
+        </div>
+        <div class="marquee-text">
+          CSS Variables & Fluid Layouts <span class="dot"></span>
+        </div>
+        <div class="marquee-text">
+          100 Performance Score <span class="dot"></span>
+        </div>
+        <div class="marquee-text">
+          &lt;Typescript /&gt; <span class="dot"></span>
+        </div>
+        <div class="marquee-text">
+          Islands Architecture <span class="dot"></span>
+        </div>
+        <div class="marquee-text">
+          CSS Variables & Fluid Layouts <span class="dot"></span>
+        </div>
+        <div class="marquee-text">
+          100 Performance Score <span class="dot"></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Principios de Ingeniería / Capabilities -->
+  <section class="capabilities-section">
+    <div class="section-header-code">
+      <span class="syntax-keyword">import</span> &#123; <span class="syntax-fn"
+        >architecturalManifesto</span
+      > &#125; <span class="syntax-keyword">from</span>
+      <span class="syntax-string">'hadercode.dev/principles'</span>;
+    </div>
+    <h2 class="section-title">Principios de Ingeniería</h2>
+    <div class="capabilities-grid">
+      <div class="capability-card hover-tilt" data-cursor-expand>
+        <div class="card-num mono">(01)</div>
+        <h3 class="capability-title">Rendimiento Extremo</h3>
+        <p class="capability-desc">
+          Priorizo arquitecturas ligeras con hidratación parcial (islas de
+          Astro) para lograr un Lighthouse score de 100. Optimización de Core
+          Web Vitals, carga diferida y reducción de bundles JS al mínimo
+          absoluto.
+        </p>
+        <div class="capability-tech mono">
+          <span>astro_islands</span>
+          <span>lighthouse_100</span>
+          <span>perf_budgets</span>
+        </div>
+      </div>
+
+      <div class="capability-card hover-tilt" data-cursor-expand>
+        <div class="card-num mono">(02)</div>
+        <h3 class="capability-title">Diseño de Sistemas & UI/UX</h3>
+        <p class="capability-desc">
+          Construcción de interfaces interactivas premium y sistemas de diseño
+          consistentes mediante Vanilla CSS moderno. Uso de colores HSL
+          dinámicos, micro-interacciones suaves y total accesibilidad (WCAG).
+        </p>
+        <div class="capability-tech mono">
+          <span>vanilla_css</span>
+          <span>design_systems</span>
+          <span>wcag_compliance</span>
+        </div>
+      </div>
+
+      <div class="capability-card hover-tilt" data-cursor-expand>
+        <div class="card-num mono">(03)</div>
+        <h3 class="capability-title">Ingeniería y Tooling</h3>
+        <p class="capability-desc">
+          Desarrollo estructurado con TypeScript robusto y tipado estricto.
+          Configuración personalizada de bundlers como Vite para optimizar los
+          ciclos de compilación y empaquetamiento de dependencias.
+        </p>
+        <div class="capability-tech mono">
+          <span>typescript_strict</span>
+          <span>vite_bundler</span>
+          <span>clean_code</span>
+        </div>
+      </div>
+
+      <div class="capability-card hover-tilt" data-cursor-expand>
+        <div class="card-num mono">(04)</div>
+        <h3 class="capability-title">Despliegue y Ops</h3>
+        <p class="capability-desc">
+          Configuración de entornos reproducibles con Docker y Docker Compose.
+          Despliegue de servidores Nginx eficientes en la nube (AWS EC2), con
+          políticas de seguridad estrictas y automatización SSL.
+        </p>
+        <div class="capability-tech mono">
+          <span>docker_compose</span>
+          <span>nginx_proxy</span>
+          <span>aws_ec2_deploy</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Featured Projects -->
+  <section class="projects-section">
+    <div class="section-header-code">
+      <span class="syntax-keyword">const</span>
+      <span class="syntax-fn">featuredProjects</span> = <span
+        class="syntax-keyword">await</span
+      > loadFeatured();
+    </div>
+
+    <div class="editorial-grid">
+      {
+        featuredProjects.map((project) => (
+          <ProjectCard
+            title={project.data.title}
+            description={project.data.description}
+            tags={project.data.tags}
+            image={project.data.image}
+            link={`/projects`}
+          />
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- Historial Profesional / Experiencia -->
+  <section class="experience-section">
+    <div class="section-header-code">
+      <span class="syntax-keyword">systemctl</span>
+      <span class="syntax-fn">status</span>
+      <span class="syntax-string">career.service --lines=10</span>
+    </div>
+
+    <div class="terminal-status-header mono">
+      <span>● career.service - Historial de Ingeniería de Software</span>
+      <span class="status-active"
+        >Loaded: active (running) since Mon 2018-09-03; 8 years ago</span
+      >
+      <span>Main PID: 1024 (developer)</span>
+      <span>Tasks: 4 (limit: 512)</span>
+    </div>
+
+    <div class="experience-list">
+      <!-- Experiencia 1 -->
+      <div class="experience-item active" data-role="tech-lead">
+        <button class="experience-trigger hover-link" data-cursor-expand>
+          <span class="exp-dot active"></span>
+          <div class="exp-title-row">
+            <h3 class="exp-role">Tech Lead Frontend</h3>
+            <span class="exp-company mono"
+              >had.code labs // Madrid (Híbrido)</span
+            >
+          </div>
+          <span class="exp-date mono">2023 - Presente</span>
+          <span class="exp-chevron">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6 9L12 15L18 9"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </span>
+        </button>
+
+        <div class="experience-details">
+          <div class="details-inner mono">
+            <p class="log-cmd">
+              $ journalctl -u career.service --identifier="had.code labs"
+            </p>
+            <ul class="log-lines">
+              <li class="log-line">
+                <span class="log-time">[JUL 16]</span> Lideré la migración de arquitectura
+                monolítica a Micro-frontends, reduciendo el JS inicial en un 42%.
+              </li>
+              <li class="log-line">
+                <span class="log-time">[JUL 16]</span> Diseñé y mantuve el sistema
+                de diseño interno de componentes UI usando CSS puro, ahorrando un
+                30% de tiempo en el desarrollo de nuevas features.
+              </li>
+              <li class="log-line">
+                <span class="log-time">[JUL 16]</span> Establecí estándares de accesibilidad
+                (WCAG AA), incrementando el score de accesibilidad de Lighthouse a
+                +95 de forma constante.
+              </li>
+              <li class="log-line">
+                <span class="log-time">[JUL 16]</span> Mentoré a 4 desarrolladores
+                frontend junior/mid y coordiné integraciones fluidas con el equipo
+                de Backend (Node/Go).
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Experiencia 2 -->
+      <div class="experience-item" data-role="senior-dev">
+        <button class="experience-trigger hover-link" data-cursor-expand>
+          <span class="exp-dot"></span>
+          <div class="exp-title-row">
+            <h3 class="exp-role">Senior Software Engineer (Frontend)</h3>
+            <span class="exp-company mono">Nexa Solutions // Remoto</span>
+          </div>
+          <span class="exp-date mono">2021 - 2023</span>
+          <span class="exp-chevron">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6 9L12 15L18 9"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </span>
+        </button>
+
+        <div class="experience-details">
+          <div class="details-inner mono">
+            <p class="log-cmd">
+              $ journalctl -u career.service --identifier="Nexa Solutions"
+            </p>
+            <ul class="log-lines">
+              <li class="log-line">
+                <span class="log-time">[DEC 22]</span> Optimicé Core Web Vitals en
+                la plataforma e-commerce principal, logrando una mejora del 35% en
+                First Contentful Paint.
+              </li>
+              <li class="log-line">
+                <span class="log-time">[DEC 22]</span> Desarrollé dashboards interactivos
+                de analítica en tiempo real utilizando React y WebSocket pipelines.
+              </li>
+              <li class="log-line">
+                <span class="log-time">[DEC 22]</span> Automaticé flujos de integración
+                y despliegue continuo (CI/CD) con GitHub Actions, reduciendo los tiempos
+                de despliegue a producción de 25 a 8 minutos.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- Experiencia 3 -->
+      <div class="experience-item" data-role="fullstack-dev">
+        <button class="experience-trigger hover-link" data-cursor-expand>
+          <span class="exp-dot"></span>
+          <div class="exp-title-row">
+            <h3 class="exp-role">Full Stack Developer</h3>
+            <span class="exp-company mono">ByteCraft Studio // Presencial</span>
+          </div>
+          <span class="exp-date mono">2018 - 2021</span>
+          <span class="exp-chevron">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M6 9L12 15L18 9"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"></path>
+            </svg>
+          </span>
+        </button>
+
+        <div class="experience-details">
+          <div class="details-inner mono">
+            <p class="log-cmd">
+              $ journalctl -u career.service --identifier="ByteCraft Studio"
+            </p>
+            <ul class="log-lines">
+              <li class="log-line">
+                <span class="log-time">[AUG 20]</span> Creé servicios backend robustos
+                con Node.js, Express y bases de datos PostgreSQL para dar soporte
+                a +10k usuarios activos.
+              </li>
+              <li class="log-line">
+                <span class="log-time">[AUG 20]</span> Implementé maquetas responsive
+                pixel-perfect a partir de diseños de Figma usando HTML5 semántico
+                y CSS moderno.
+              </li>
+              <li class="log-line">
+                <span class="log-time">[AUG 20]</span> Colaboré en la contenerización
+                de las aplicaciones con Docker para asegurar paridad entre entornos
+                local y staging.
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Blog / Knowledge Section -->
+  <section class="knowledge-section">
+    <div class="section-header-code">
+      <span class="comment">// thoughts_and_technical_journal.log</span>
+    </div>
+
+    <div class="blog-preview-container">
+      {
+        latestPosts.map((post) => (
+          <article class="blog-preview-item">
+            <a
+              href={`/blog/${post.id}`}
+              class="blog-preview-link hover-link"
+              data-cursor-expand
+            >
+              <div class="blog-meta">
+                <span class="blog-date mono">
+                  {post.data.pubDate.toLocaleDateString("es-ES", {
+                    year: "numeric",
+                    month: "short",
+                    day: "numeric",
+                  })}
+                </span>
+                <div class="blog-tags">
+                  {post.data.tags.slice(0, 2).map((tag) => (
+                    <span class="blog-tag mono">{tag}</span>
+                  ))}
+                </div>
+              </div>
+              <div class="blog-info">
+                <h3 class="blog-title">{post.data.title}</h3>
+                <p class="blog-desc">{post.data.description}</p>
+              </div>
+              <div class="blog-arrow">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M5 12H19M19 12L13 6M19 12L13 18"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </div>
+            </a>
+          </article>
+        ))
+      }
+    </div>
+
+    <div class="blog-more-container">
+      <a href="/blog" class="hover-link mono" data-cursor-expand>
+        cat journal/all_entries.txt &rarr;
+      </a>
+    </div>
+  </section>
+
+  <!-- Creative CTA Section -->
+  <section class="cta-section">
+    <div class="cta-content">
+      <span class="mono accent-text">// handshake.proto</span>
+      <h2 class="cta-heading">¿Listo para compilar una idea?</h2>
+      <p class="cta-text">
+        Si buscas un ingeniero frontend que priorice la velocidad de carga, la
+        accesibilidad de la UI, y que construya código limpio estructurado sin
+        depender de plantillas bloated, hablemos.
+      </p>
+      <a href="/contact" class="btn-magnetic" data-cursor-expand>
+        <span>git clone collaboration.git</span>
+      </a>
+    </div>
+  </section>
+</Layout>
+
+<style>
+  /* Hero Styles */
+  .hero-section {
+    padding: 12rem 0 6rem 0;
+  }
+
+  .hero-content {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .hero-text-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  .hero-label {
+    font-family: var(--font-mono);
+    color: var(--accent-primary);
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+  }
+
+  .hero-title {
+    font-size: clamp(2.5rem, 5vw, 4.8rem);
+    line-height: 0.95;
+    text-transform: uppercase;
+  }
+
+  .accent-text {
+    color: var(--accent-primary);
+    -webkit-text-stroke: 1px var(--accent-primary);
+  }
+
+  .hero-intro {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .hero-intro p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+  }
+
+  .hero-actions {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+  }
+
+  .link-explore {
+    font-size: 0.9rem;
+    font-weight: 700;
+  }
+
+  .hero-visual-panel {
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Projects Section */
+  .projects-section {
+    padding: 8rem 0;
+  }
+
+  /* Marquee Section */
+  .marquee-section {
+    padding: 4rem 0;
+  }
+
+  /* Blog Preview Section */
+  .knowledge-section {
+    padding: 8rem 0;
+  }
+
+  .blog-preview-container {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .blog-preview-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .blog-preview-link {
+    display: grid;
+    grid-template-columns: 1fr 2.5fr 0.5fr;
+    padding: 2.5rem 0;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .blog-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .blog-date {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .blog-tags {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .blog-tag {
+    font-size: 0.7rem;
+    background-color: var(--bg-secondary);
+    padding: 0.15rem 0.5rem;
+    border-radius: 3px;
+    color: var(--accent-secondary);
+  }
+
+  .blog-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .blog-title {
+    font-size: 1.6rem;
+    font-weight: 800;
+    transition: color 0.3s ease;
+  }
+
+  .blog-preview-link:hover .blog-title {
+    color: var(--accent-primary);
+  }
+
+  .blog-desc {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+  }
+
+  .blog-arrow {
+    display: flex;
+    justify-content: flex-end;
+    color: var(--text-secondary);
+    transition:
+      transform 0.3s var(--ease-out-expo),
+      color 0.3s ease;
+  }
+
+  .blog-arrow svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .blog-preview-link:hover .blog-arrow {
+    transform: translateX(10px);
+    color: var(--accent-primary);
+  }
+
+  .blog-more-container {
+    margin-top: 3rem;
+    display: flex;
+    justify-content: flex-end;
+  }
+
+  /* CTA Section */
+  .cta-section {
+    padding: 10rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .cta-content {
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+
+  .cta-heading {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .cta-text {
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  /* Responsive Adjustments */
+  @media (max-width: 1024px) {
+    .hero-content {
+      grid-template-columns: 1fr;
+      gap: 5rem;
+    }
+  }
+
+  @media (max-width: 900px) {
+    .hero-section {
+      padding: 8rem 0 4rem 0;
+    }
+
+    .blog-preview-link {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      padding: 2rem 0;
+    }
+
+    .blog-arrow {
+      justify-content: flex-start;
+    }
+
+    .cta-section {
+      padding: 6rem 0;
+    }
+  }
+
+  /* Capabilities Section */
+  .capabilities-section {
+    padding: 8rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    text-transform: uppercase;
+    margin-bottom: 3rem;
+  }
+
+  .capabilities-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+
+  .capability-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    padding: 3rem;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    transition:
+      border-color 0.3s ease,
+      background-color 0.3s ease;
+  }
+
+  .capability-card:hover {
+    border-color: rgba(255, 255, 255, 0.1);
+    background-color: rgba(255, 255, 255, 0.01);
+  }
+
+  .capability-card .card-num {
+    font-size: 0.9rem;
+    color: var(--accent-primary);
+    font-weight: 700;
+  }
+
+  .capability-title {
+    font-size: 1.5rem;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .capability-desc {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+  }
+
+  .capability-tech {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: auto;
+  }
+
+  .capability-tech span {
+    font-size: 0.75rem;
+    color: var(--accent-secondary);
+    background-color: var(--bg-primary);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    padding: 0.25rem 0.6rem;
+    border-radius: 4px;
+  }
+
+  /* Experience Section */
+  .experience-section {
+    padding: 8rem 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .terminal-status-header {
+    background-color: var(--bg-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: none;
+    padding: 1.5rem 2rem;
+    border-radius: 8px 8px 0 0;
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .status-active {
+    color: var(--accent-primary);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .status-active::before {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    background-color: var(--accent-primary);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--accent-primary);
+    animation: pulse 1.5s infinite;
+  }
+
+  @keyframes pulse {
+    0% {
+      opacity: 0.4;
+    }
+    50% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.4;
+    }
+  }
+
+  .experience-list {
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 0 0 8px 8px;
+    background-color: var(--bg-secondary);
+    overflow: hidden;
+  }
+
+  .experience-item {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .experience-item:last-child {
+    border-bottom: none;
+  }
+
+  .experience-trigger {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 2rem;
+    text-align: left;
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+
+  .experience-trigger:hover {
+    background-color: rgba(255, 255, 255, 0.01);
+  }
+
+  .exp-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.15);
+    flex-shrink: 0;
+  }
+
+  .exp-dot.active {
+    background-color: var(--accent-primary);
+    box-shadow: 0 0 6px var(--accent-primary);
+  }
+
+  .exp-title-row {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    flex-grow: 1;
+  }
+
+  .exp-role {
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    text-transform: uppercase;
+  }
+
+  .exp-company {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+  }
+
+  .exp-date {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-right: 2rem;
+  }
+
+  .exp-chevron {
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s var(--ease-out-expo);
+  }
+
+  .exp-chevron svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .experience-item.active .exp-chevron {
+    transform: rotate(180deg);
+    color: var(--accent-primary);
+  }
+
+  /* Accordion Transition Details */
+  .experience-details {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.35s var(--ease-out-expo);
+    overflow: hidden;
+  }
+
+  .experience-item.active .experience-details {
+    grid-template-rows: 1fr;
+  }
+
+  .details-inner {
+    min-height: 0;
+    padding: 0 2rem 2rem 4rem;
+  }
+
+  .log-cmd {
+    font-size: 0.8rem;
+    color: var(--accent-secondary);
+    margin-bottom: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+    padding-bottom: 0.5rem;
+  }
+
+  .log-lines {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .log-line {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .log-time {
+    color: var(--accent-primary);
+    margin-right: 0.75rem;
+  }
+
+  /* Responsive Adjustments Extras */
+  @media (max-width: 900px) {
+    .capabilities-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .experience-trigger {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .exp-date {
+      margin-right: 0;
+    }
+
+    .exp-chevron {
+      align-self: flex-end;
+      margin-top: -1.5rem;
+    }
+
+    .details-inner {
+      padding: 0 1.5rem 1.5rem 1.5rem;
+    }
+  }
+</style>
+
+<script>
+  function setupExperienceAccordion() {
+    const items = document.querySelectorAll(".experience-item");
+
+    if (!items.length) return;
+
+    items.forEach((item) => {
+      const trigger = item.querySelector(".experience-trigger");
+      if (!trigger) return;
+
+      trigger.addEventListener("click", () => {
+        const isActive = item.classList.contains("active");
+
+        // Collapse all items
+        items.forEach((i) => i.classList.remove("active"));
+
+        // Toggle selected item
+        if (!isActive) {
+          item.classList.add("active");
+        }
+      });
+    });
+  }
+
+  // Hook into Astro Page Load cycle
+  document.addEventListener("astro:page-load", setupExperienceAccordion);
+</script>

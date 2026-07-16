@@ -1,0 +1,154 @@
+---
+import { ClientRouter } from "astro:transitions";
+import FloatingNav from "../components/FloatingNav.astro";
+import CustomCursor from "../components/CustomCursor.astro";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  ogType?: "website" | "article";
+  publishedTime?: Date;
+  tags?: string[];
+}
+
+const {
+  title,
+  description = "Sitio oficial de HaderCode, un desarrollador dedicado a brindar soluciones, consultoría en tecnologia y desarrollo de software.",
+  image = "/images/project-one.png",
+  ogType = "website",
+  publishedTime,
+  tags = [],
+} = Astro.props;
+
+const canonicalURL = new URL(
+  Astro.url.pathname,
+  Astro.site || Astro.url.origin,
+);
+const resolvedImageURL = image
+  ? new URL(image, Astro.site || Astro.url.origin)
+  : null;
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- SEO Meta Tags -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={ogType} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {
+      resolvedImageURL && (
+        <meta property="og:image" content={resolvedImageURL} />
+      )
+    }
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={canonicalURL} />
+    <meta property="twitter:title" content={title} />
+    <meta property="twitter:description" content={description} />
+    {
+      resolvedImageURL && (
+        <meta property="twitter:image" content={resolvedImageURL} />
+      )
+    }
+
+    <!-- Article SEO Tags -->
+    {
+      ogType === "article" && publishedTime && (
+        <meta
+          property="article:published_time"
+          content={publishedTime.toISOString()}
+        />
+      )
+    }
+    {
+      ogType === "article" &&
+        tags.map((tag) => <meta property="article:tag" content={tag} />)
+    }
+
+    <ClientRouter />
+  </head>
+  <body>
+    <!-- Custom Trailing Cursor -->
+    <CustomCursor />
+
+    <!-- Persistent Floating Navigation -->
+    <FloatingNav />
+
+    <!-- Main Content Container -->
+    <main>
+      <slot />
+    </main>
+
+    <!-- Global Footer -->
+    <footer class="footer">
+      <div class="footer-content">
+        <p>
+          &copy; {new Date().getFullYear()} — Diseñado y Desarrollado con riguroso
+          detalle.
+        </p>
+        <div class="footer-links">
+          <a href="/blog" class="hover-link">Blog</a>
+          <a href="/projects" class="hover-link">Proyectos</a>
+          <a href="/contact" class="hover-link">Contacto</a>
+        </div>
+      </div>
+    </footer>
+
+    <style>
+      .footer {
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 4rem 2rem;
+        margin-top: 8rem;
+        background-color: var(--bg-primary);
+      }
+
+      .footer-content {
+        max-width: 1400px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 2rem;
+        font-family: var(--font-mono);
+        font-size: 0.85rem;
+      }
+
+      .footer-links {
+        display: flex;
+        gap: 2rem;
+      }
+
+      .footer-links a {
+        color: var(--text-secondary);
+      }
+
+      .footer-links a:hover {
+        color: var(--accent-primary);
+      }
+
+      @media (max-width: 600px) {
+        .footer-content {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 1.5rem;
+        }
+      }
+    </style>
+  </body>
+</html>

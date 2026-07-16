@@ -1,0 +1,147 @@
+---
+---
+<div id="custom-cursor" class="custom-cursor">
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+</div>
+
+<style>
+  .custom-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    pointer-events: none;
+  }
+
+  .cursor-dot {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    background-color: var(--accent-primary);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition: width 0.2s, height 0.2s, background-color 0.2s;
+    /* Evitar retrasos para el punto central para mantener el feeling responsivo */
+    left: -100px;
+    top: -100px;
+  }
+
+  .cursor-ring {
+    position: absolute;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--accent-primary);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    /* Usaremos JS para moverlo suavemente con interpolación */
+    transition: width 0.3s var(--ease-out-expo), height 0.3s var(--ease-out-expo), background-color 0.3s ease, border-color 0.3s ease;
+    left: -100px;
+    top: -100px;
+    pointer-events: none;
+  }
+
+  /* Hover Expansion */
+  .custom-cursor.expanded .cursor-ring {
+    width: 60px;
+    height: 60px;
+    background-color: rgba(212, 255, 63, 0.1);
+    border-color: var(--accent-primary);
+  }
+
+  .custom-cursor.expanded .cursor-dot {
+    width: 10px;
+    height: 10px;
+    background-color: var(--accent-secondary);
+  }
+
+  /* Diference Blend Mode */
+  .custom-cursor.blend-mode .cursor-ring {
+    mix-blend-mode: difference;
+    background-color: var(--text-primary);
+    border-color: transparent;
+  }
+  
+  .custom-cursor.blend-mode .cursor-dot {
+    mix-blend-mode: difference;
+    background-color: var(--text-primary);
+  }
+
+  /* Hide custom cursor on mobile touch screens */
+  @media (hover: none) or (pointer: coarse) {
+    .custom-cursor {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  function initCustomCursor() {
+    const cursor = document.getElementById('custom-cursor');
+    const dot = cursor?.querySelector('.cursor-dot') as HTMLElement;
+    const ring = cursor?.querySelector('.cursor-ring') as HTMLElement;
+
+    if (!cursor || !dot || !ring) return;
+
+    let mouseX = -100;
+    let mouseY = -100;
+    let ringX = -100;
+    let ringY = -100;
+
+    // Actualizar coordenadas al mover el mouse
+    window.addEventListener('mousemove', (e) => {
+      mouseX = e.clientX;
+      mouseY = e.clientY;
+      
+      // Mover el dot instantáneamente
+      dot.style.left = `${mouseX}px`;
+      dot.style.top = `${mouseY}px`;
+    });
+
+    // Interpolación suave para el anillo exterior
+    function animateRing() {
+      // Retraso suave usando interpolación lineal (lerp)
+      const lerpFactor = 0.15;
+      ringX += (mouseX - ringX) * lerpFactor;
+      ringY += (mouseY - ringY) * lerpFactor;
+
+      ring.style.left = `${ringX}px`;
+      ring.style.top = `${ringY}px`;
+
+      requestAnimationFrame(animateRing);
+    }
+    
+    // Iniciar bucle de animación
+    animateRing();
+
+    // Eventos hover para expandir el cursor
+    function addHoverListeners() {
+      const hoverElements = document.querySelectorAll('a, button, [data-cursor-expand], .hover-link');
+      
+      hoverElements.forEach((el) => {
+        el.addEventListener('mouseenter', () => {
+          cursor.classList.add('expanded');
+          if (el.classList.contains('blend')) {
+            cursor.classList.add('blend-mode');
+          }
+        });
+        
+        el.addEventListener('mouseleave', () => {
+          cursor.classList.remove('expanded');
+          cursor.classList.remove('blend-mode');
+        });
+      });
+    }
+
+    addHoverListeners();
+
+    // Re-aplicar oyentes si el DOM cambia dinámicamente (por ejemplo por paginaciones)
+    const observer = new MutationObserver(addHoverListeners);
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+
+  // Ejecutar tanto en la carga inicial como en cada transición de ViewTransitions
+  document.addEventListener('astro:page-load', initCustomCursor);
+</script>

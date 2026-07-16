@@ -1,0 +1,232 @@
+---
+import Layout from "../layouts/Layout.astro";
+import "../styles/contact.css";
+import Input from "../components/Input.astro";
+---
+
+<Layout
+  title="Iniciar Conexión — hadercode.dev"
+  description="Ponte en contacto para colaborar en tu próximo proyecto de software, optimización de velocidad o consultoría técnica."
+>
+  <section class="contact-section">
+    <div class="contact-header">
+      <div class="section-header-code">
+        <span class="syntax-keyword">function</span>
+        <span class="syntax-fn">initializeCollaboration</span>() &#123;
+      </div>
+      <h1 class="header-title">Establecer Conexión</h1>
+      <p class="header-desc">
+        ¿Tienes un desafío técnico, una idea de producto de software, o
+        necesitas optimizar el rendimiento y escalabilidad de tu frontend?
+        Iniciemos una comunicación.
+      </p>
+    </div>
+
+    <div class="contact-grid">
+      <!-- Left Column: Info & Socials -->
+      <div class="contact-info-panel">
+        <div class="info-block">
+          <span class="block-title mono">socket_endpoint</span>
+          <a
+            href="mailto:[EMAIL_ADDRESS]"
+            class="block-link email-link hover-link"
+            data-cursor-expand>[EMAIL_ADDRESS]</a
+          >
+          <span class="block-subtext mono">sys.latency: &lt; 24h</span>
+        </div>
+
+        <div class="info-block">
+          <span class="block-title mono">local_timezone</span>
+          <p class="block-text">Zulia, Venezuela — GMT-4:30</p>
+        </div>
+
+        <div class="info-block">
+          <span class="block-title mono">developer_nodes</span>
+          <div class="contact-socials">
+            <a
+              href="https://github.com/hadercode"
+              target="_blank"
+              class="hover-link"
+              data-cursor-expand>GitHub</a
+            >
+            <a
+              href="https://linkedin.com/hrbullon"
+              target="_blank"
+              class="hover-link"
+              data-cursor-expand>LinkedIn</a
+            >
+            <a
+              href="https://instagram.com/hadercode"
+              target="_blank"
+              class="hover-link"
+              data-cursor-expand>Instagram</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Interactive Form & Terminal Console -->
+      <div class="contact-form-panel">
+        <form id="contact-form" class="contact-form">
+          <Input type="text" id="name" name="name" required label="Name" />
+          <Input type="email" id="email" name="email" required label="Email Address" />
+          <Input type="text" id="subject" name="subject" required label="Subject" />
+          <Input type="textarea" id="message" name="message" required label="Project details / message" rows={4} />
+
+          <button
+            type="submit"
+            class="btn-magnetic submit-btn"
+            data-cursor-expand
+          >
+            <span>./submit_payload.sh</span>
+          </button>
+        </form>
+
+        <!-- Dynamic Terminal HTTP Loader (Hidden by default) -->
+        <div id="terminal-loader" class="terminal-loader">
+          <div class="terminal-loader-header">
+            <span class="loader-dot"></span>
+            <span class="loader-title mono">HTTP Request Pipeline</span>
+          </div>
+          <div class="terminal-loader-body mono" id="loader-output">
+            <!-- Dynamically populated via JS -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>
+
+<script>
+  function setupContactPage() {
+    // 1. Mostrar Hora Local Dinámica
+    const timeElement = document.getElementById("current-time");
+
+    function updateLocalTime() {
+      if (!timeElement) return;
+      const options: Intl.DateTimeFormatOptions = {
+        timeZone: "Europe/Madrid",
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
+        hour12: false,
+      };
+
+      const formatter = new Intl.DateTimeFormat([], options);
+      timeElement.textContent = `sys.clock: ${formatter.format(new Date())} MADRID, ES`;
+    }
+
+    updateLocalTime();
+    const timeInterval = setInterval(updateLocalTime, 1000);
+
+    // 2. Lógica del Formulario de Contacto
+    const form = document.getElementById("contact-form") as HTMLFormElement;
+    const loader = document.getElementById("terminal-loader");
+    const output = document.getElementById("loader-output");
+
+    if (form && loader && output) {
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const formData = new FormData(form);
+        const name = formData.get("name") as string;
+        const email = formData.get("email") as string;
+        const subject = formData.get("subject") as string;
+        const message = formData.get("message") as string;
+
+        // Ocultar formulario
+        form.classList.add("hidden");
+
+        // Mostrar terminal
+        loader.classList.add("active");
+
+        // Iniciar flujo de escritura simulada en consola
+        let steps = [
+          {
+            text: `<span class="accent">> POST /api/v1/contact HTTP/1.1</span>`,
+            delay: 100,
+          },
+          { text: `<span>> Host: hadercode.com</span>`, delay: 300 },
+          { text: `<span>> Content-Type: application/json</span>`, delay: 500 },
+          {
+            text: `<span>> User-Agent: client-browser-agent/1.0</span>`,
+            delay: 700,
+          },
+          {
+            text: `<span class="comment">> Payload serializing...</span>`,
+            delay: 900,
+          },
+          {
+            text: `<span>{</span>
+  <span>  <span class="secondary">"sender"</span>: <span class="accent">"${name}"</span>,</span>
+  <span>  <span class="secondary">"endpoint"</span>: <span class="accent">"${email}"</span>,</span>
+  <span>  <span class="secondary">"subject"</span>: <span class="accent">"${subject}"</span></span>
+<span>}</span>`,
+            delay: 1200,
+          },
+          {
+            text: `<span class="comment">> Dispatching TCP packets [=======>] 100%</span>`,
+            delay: 2000,
+          },
+          {
+            text: `<span class="accent">> HTTP/1.1 202 Accepted</span>`,
+            delay: 2500,
+          },
+          {
+            text: `<span>> Server: had.code-node-router/5.2.0</span>`,
+            delay: 2800,
+          },
+          { text: `<span>> Connection: keep-alive</span>`, delay: 3000 },
+          {
+            text: `<span class="accent">> handshake_complete: Conexión realizada con éxito.</span>`,
+            delay: 3300,
+          },
+          {
+            text: `<p style="margin-top: 1rem;">Gracias <span class="accent">${name}</span>, he registrado tu mensaje y recibirás respuesta en tu casilla <span class="secondary">${email}</span>.</p>`,
+            delay: 3800,
+          },
+          {
+            text: `<button id="reset-terminal-btn" class="btn-magnetic" data-cursor-expand><span>./send_new_packet.sh</span></button>`,
+            delay: 4200,
+          },
+        ];
+
+        output.innerHTML = "";
+
+        steps.forEach((step) => {
+          setTimeout(() => {
+            const line = document.createElement("div");
+            line.innerHTML = step.text;
+            output.appendChild(line);
+
+            // Auto scroll hacia abajo
+            const panel = document.querySelector(".terminal-loader-body");
+            if (panel) panel.scrollTop = panel.scrollHeight;
+
+            // Vincular evento al botón de reset una vez creado
+            if (step.text.includes("reset-terminal-btn")) {
+              const resetBtn = document.getElementById("reset-terminal-btn");
+              if (resetBtn) {
+                resetBtn.addEventListener("click", () => {
+                  loader.classList.remove("active");
+                  form.reset();
+                  form.classList.remove("hidden");
+                });
+              }
+            }
+          }, step.delay);
+        });
+      });
+    }
+
+    document.addEventListener(
+      "astro:before-swap",
+      () => {
+        clearInterval(timeInterval);
+      },
+      { once: true },
+    );
+  }
+
+  document.addEventListener("astro:page-load", setupContactPage);
+</script>

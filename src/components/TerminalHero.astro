@@ -1,0 +1,133 @@
+---
+import "../styles/terminal-hero.css";
+---
+
+<div class="terminal-window">
+  <!-- Window Header -->
+  <div class="terminal-header">
+    <div class="window-buttons">
+      <span class="btn close"></span>
+      <span class="btn minimize"></span>
+      <span class="btn maximize"></span>
+    </div>
+    <div class="terminal-title mono">hadercode@developer: ~</div>
+    <div class="terminal-actions">
+      <span class="action-status"></span>
+    </div>
+  </div>
+
+  <!-- Tabs Navigation -->
+  <div class="terminal-tabs">
+    <button class="tab-btn active" data-tab="about" data-cursor-expand>
+      <span class="icon font-json">&#123;&#125;</span> about.json
+    </button>
+    <button class="tab-btn" data-tab="stack" data-cursor-expand>
+      <span class="icon font-cfg">⚙</span> stack.config
+    </button>
+    <button class="tab-btn" data-tab="contact" data-cursor-expand>
+      <span class="icon font-sh">$</span> connect.sh
+    </button>
+  </div>
+
+  <!-- Terminal Content Area -->
+  <div class="terminal-body">
+    <!-- Tab 1: about.json -->
+    <div class="tab-content active" id="tab-about">
+      <pre><code><span class="keyword">const</span> developer = &#123;
+  <span class="property">"name"</span>: <span class="string">"hadercode"</span>,
+  <span class="property">"role"</span>: <span class="string">"Full Stack / Software Engineer"</span>,
+  <span class="property">"specialty"</span>: <span class="string">"Creative Coding & Performance Optimization"</span>,
+  <span class="property">"philosophy"</span>: <span class="string">"Simplicity over complexity. Craftsmanship over templates."</span>,
+  <span class="property">"metrics"</span>: &#123;
+    <span class="property">"coffeeToCodeRatio"</span>: <span class="number">1.04</span>,
+    <span class="property">"lighthouseScoreGoal"</span>: <span class="number">100</span>,
+    <span class="property">"tabsOverSpaces"</span>: <span class="keyword">false</span>
+  &#125;
+&#125;;</code></pre>
+    </div>
+
+    <!-- Tab 2: stack.config -->
+    <div class="tab-content" id="tab-stack">
+      <pre><code><span class="comment"># Tech Stack Configuration</span>
+[languages]
+typescript  = <span class="keyword">true</span>
+javascript  = <span class="keyword">true</span>
+css_html    = <span class="keyword">true</span>
+rust_go     = <span class="string">"active_learning"</span>
+
+[frameworks]
+astro_js    = <span class="string">"expert"</span>
+react_next  = <span class="string">"advanced"</span>
+node_js     = <span class="string">"advanced"</span>
+
+[performance_and_design]
+islands_architecture = <span class="keyword">true</span>
+responsive_layouts   = <span class="keyword">true</span>
+vanilla_css_craft   = <span class="keyword">true</span></code></pre>
+    </div>
+
+    <!-- Tab 3: connect.sh -->
+    <div class="tab-content" id="tab-contact">
+      <pre><code><span class="comment">#!/bin/bash</span>
+<span class="keyword">echo</span> <span class="string">"Iniciando handshake seguro con had.code..."</span>
+<span class="keyword">sleep</span> <span class="number">0.5</span>
+
+<span class="keyword">export</span> <span class="property">DEV_EMAIL</span>=<span class="string">"[EMAIL_ADDRESS]"</span>
+<span class="keyword">export</span> <span class="property">STATUS</span>=<span class="string">"disponible_para_proyectos"</span>
+
+<span class="keyword">echo</span> <span class="string">"¿Listo para iniciar una colaboración?"</span>
+<button id="run-script-btn" class="run-btn" data-cursor-expand>Ejecutar script para conectar</button>
+
+<div id="terminal-output" class="terminal-output" /></code></pre>
+    </div>
+  </div>
+</div>
+
+<script>
+  function setupTerminal() {
+    const tabs = document.querySelectorAll(".tab-btn");
+    const contents = document.querySelectorAll(".tab-content");
+    const runBtn = document.getElementById("run-script-btn");
+    const output = document.getElementById("terminal-output");
+
+    if (!tabs || !contents) return;
+
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", () => {
+        const targetTab = tab.getAttribute("data-tab");
+
+        // Toggle active tab class
+        tabs.forEach((t) => t.classList.remove("active"));
+        tab.classList.add("active");
+
+        // Toggle active content class
+        contents.forEach((content) => {
+          content.classList.remove("active");
+          if (content.id === `tab-${targetTab}`) {
+            content.classList.add("active");
+          }
+        });
+      });
+    });
+
+    if (runBtn && output) {
+      runBtn.addEventListener("click", () => {
+        output.style.display = "block";
+        output.innerHTML = '<p class="comment">> Running connect.sh...</p>';
+
+        setTimeout(() => {
+          output.innerHTML +=
+            '<p class="success-msg">> Conexión establecida con éxito.</p>';
+          output.innerHTML += "<p>> Redirigiendo a contact_form.json...</p>";
+
+          setTimeout(() => {
+            // Navegar a la página de contacto usando el router de Astro
+            window.location.href = "/contact";
+          }, 1000);
+        }, 800);
+      });
+    }
+  }
+
+  document.addEventListener("astro:page-load", setupTerminal);
+</script>
