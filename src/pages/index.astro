@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
 import ProjectCard from "../components/ProjectCard.astro";
 import TerminalHero from "../components/TerminalHero.astro";
 import { getCollection } from "astro:content";
@@ -33,10 +34,6 @@ const latestPosts = allPosts
         <h1 class="hero-title">
           <span class="text-reveal-container">
             <span class="text-reveal-item">Código sólido,</span>
-          </span>
-          <br />
-          <span class="text-reveal-container">
-            <span class="text-reveal-item accent-text">arquitectura</span>
           </span>
           <br />
           <span class="text-reveal-container">
@@ -116,66 +113,74 @@ const latestPosts = allPosts
     </div>
     <h2 class="section-title">Principios de Ingeniería</h2>
     <div class="capabilities-grid">
-      <div class="capability-card hover-tilt" data-cursor-expand>
-        <div class="card-num mono">(01)</div>
-        <h3 class="capability-title">Rendimiento Extremo</h3>
-        <p class="capability-desc">
-          Priorizo arquitecturas ligeras con hidratación parcial (islas de
-          Astro) para lograr un Lighthouse score de 100. Optimización de Core
-          Web Vitals, carga diferida y reducción de bundles JS al mínimo
-          absoluto.
-        </p>
-        <div class="capability-tech mono">
-          <span>astro_islands</span>
-          <span>lighthouse_100</span>
-          <span>perf_budgets</span>
+      <Card data-cursor-expand>
+        <div class="card-body">
+          <span class="card-num mono">(01)</span>
+          <h3 class="capability-title">Rendimiento Extremo</h3>
+          <p class="capability-desc">
+            Priorizo arquitecturas ligeras con hidratación parcial (islas de
+            Astro) para lograr un Lighthouse score de 100. Optimización de Core
+            Web Vitals, carga diferida y reducción de bundles JS al mínimo
+            absoluto.
+          </p>
+          <div class="capability-tech mono">
+            <span>astro_islands</span>
+            <span>lighthouse_100</span>
+            <span>perf_budgets</span>
+          </div>
         </div>
-      </div>
+      </Card>
 
-      <div class="capability-card hover-tilt" data-cursor-expand>
-        <div class="card-num mono">(02)</div>
-        <h3 class="capability-title">Diseño de Sistemas & UI/UX</h3>
-        <p class="capability-desc">
-          Construcción de interfaces interactivas premium y sistemas de diseño
-          consistentes mediante Vanilla CSS moderno. Uso de colores HSL
-          dinámicos, micro-interacciones suaves y total accesibilidad (WCAG).
-        </p>
-        <div class="capability-tech mono">
-          <span>vanilla_css</span>
-          <span>design_systems</span>
-          <span>wcag_compliance</span>
+      <Card data-cursor-expand>
+        <div class="card-body">
+          <span class="card-num mono">(02)</span>
+          <h3 class="capability-title">Diseño de Sistemas & UI/UX</h3>
+          <p class="capability-desc">
+            Construcción de interfaces interactivas premium y sistemas de diseño
+            consistentes mediante Vanilla CSS moderno. Uso de colores HSL
+            dinámicos, micro-interacciones suaves y total accesibilidad (WCAG).
+          </p>
+          <div class="capability-tech mono">
+            <span>vanilla_css</span>
+            <span>design_systems</span>
+            <span>wcag_compliance</span>
+          </div>
         </div>
-      </div>
+      </Card>
 
-      <div class="capability-card hover-tilt" data-cursor-expand>
-        <div class="card-num mono">(03)</div>
-        <h3 class="capability-title">Ingeniería y Tooling</h3>
-        <p class="capability-desc">
-          Desarrollo estructurado con TypeScript robusto y tipado estricto.
-          Configuración personalizada de bundlers como Vite para optimizar los
-          ciclos de compilación y empaquetamiento de dependencias.
-        </p>
-        <div class="capability-tech mono">
-          <span>typescript_strict</span>
-          <span>vite_bundler</span>
-          <span>clean_code</span>
+      <Card data-cursor-expand>
+        <div class="card-body">
+          <span class="card-num mono">(03)</span>
+          <h3 class="capability-title">Ingeniería y Tooling</h3>
+          <p class="capability-desc">
+            Desarrollo estructurado con TypeScript robusto y tipado estricto.
+            Configuración personalizada de bundlers como Vite para optimizar los
+            ciclos de compilación y empaquetamiento de dependencias.
+          </p>
+          <div class="capability-tech mono">
+            <span>typescript_strict</span>
+            <span>vite_bundler</span>
+            <span>clean_code</span>
+          </div>
         </div>
-      </div>
+      </Card>
 
-      <div class="capability-card hover-tilt" data-cursor-expand>
-        <div class="card-num mono">(04)</div>
-        <h3 class="capability-title">Despliegue y Ops</h3>
-        <p class="capability-desc">
-          Configuración de entornos reproducibles con Docker y Docker Compose.
-          Despliegue de servidores Nginx eficientes en la nube (AWS EC2), con
-          políticas de seguridad estrictas y automatización SSL.
-        </p>
-        <div class="capability-tech mono">
-          <span>docker_compose</span>
-          <span>nginx_proxy</span>
-          <span>aws_ec2_deploy</span>
+      <Card data-cursor-expand>
+        <div class="card-body">
+          <span class="card-num mono">(04)</span>
+          <h3 class="capability-title">Despliegue y Ops</h3>
+          <p class="capability-desc">
+            Configuración de entornos reproducibles con Docker y Docker Compose.
+            Despliegue de servidores Nginx eficientes en la nube (AWS EC2), con
+            políticas de seguridad estrictas y automatización SSL.
+          </p>
+          <div class="capability-tech mono">
+            <span>docker_compose</span>
+            <span>nginx_proxy</span>
+            <span>aws_ec2_deploy</span>
+          </div>
         </div>
-      </div>
+      </Card>
     </div>
   </section>
 
@@ -211,28 +216,37 @@ const latestPosts = allPosts
       <span class="syntax-string">career.service --lines=10</span>
     </div>
 
-    <div class="terminal-status-header mono">
-      <span>● career.service - Historial de Ingeniería de Software</span>
-      <span class="status-active"
-        >Loaded: active (running) since Mon 2018-09-03; 8 years ago</span
-      >
-      <span>Main PID: 1024 (developer)</span>
-      <span>Tasks: 4 (limit: 512)</span>
+    <h2 class="section-title">Experiencia Profesional</h2>
+
+    <div class="terminal-status-bar mono">
+      <div class="status-indicator">
+        <span class="status-dot"></span>
+        <span>career.service</span>
+      </div>
+      <div class="status-meta">
+        <span>active (running)</span>
+        <span>since 2018-09-03</span>
+        <span>8 years uptime</span>
+      </div>
     </div>
 
     <div class="experience-list">
       <!-- Experiencia 1 -->
-      <div class="experience-item active" data-role="tech-lead">
+      <div class="experience-card active" data-role="tech-lead">
         <button class="experience-trigger hover-link" data-cursor-expand>
-          <span class="exp-dot active"></span>
-          <div class="exp-title-row">
-            <h3 class="exp-role">Tech Lead Frontend</h3>
-            <span class="exp-company mono"
-              >had.code labs // Madrid (Híbrido)</span
-            >
+          <div class="card-header">
+            <div class="card-status">
+              <span class="card-dot active"></span>
+              <span class="card-period mono">2023 - Presente</span>
+            </div>
+            <div class="card-info">
+              <h3 class="card-role">Tech Lead Frontend</h3>
+              <span class="card-company mono"
+                >had.code labs // Madrid (Híbrido)</span
+              >
+            </div>
           </div>
-          <span class="exp-date mono">2023 - Presente</span>
-          <span class="exp-chevron">
+          <span class="card-chevron">
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -248,30 +262,44 @@ const latestPosts = allPosts
           </span>
         </button>
 
-        <div class="experience-details">
-          <div class="details-inner mono">
-            <p class="log-cmd">
-              $ journalctl -u career.service --identifier="had.code labs"
-            </p>
-            <ul class="log-lines">
-              <li class="log-line">
-                <span class="log-time">[JUL 16]</span> Lideré la migración de arquitectura
-                monolítica a Micro-frontends, reduciendo el JS inicial en un 42%.
+        <div class="experience-content">
+          <div class="content-inner">
+            <div class="log-header mono">
+              <span class="log-prompt">$</span>
+              <span
+                >journalctl -u career.service --identifier="had.code labs"</span
+              >
+            </div>
+            <ul class="log-entries">
+              <li class="log-entry">
+                <span class="log-timestamp">[JUL 16]</span>
+                <span class="log-message"
+                  >Lideré la migración de arquitectura monolítica a
+                  Micro-frontends, reduciendo el JS inicial en un 42%.</span
+                >
               </li>
-              <li class="log-line">
-                <span class="log-time">[JUL 16]</span> Diseñé y mantuve el sistema
-                de diseño interno de componentes UI usando CSS puro, ahorrando un
-                30% de tiempo en el desarrollo de nuevas features.
+              <li class="log-entry">
+                <span class="log-timestamp">[JUL 16]</span>
+                <span class="log-message"
+                  >Diseñé y mantuve el sistema de diseño interno de componentes
+                  UI usando CSS puro, ahorrando un 30% de tiempo en el
+                  desarrollo de nuevas features.</span
+                >
               </li>
-              <li class="log-line">
-                <span class="log-time">[JUL 16]</span> Establecí estándares de accesibilidad
-                (WCAG AA), incrementando el score de accesibilidad de Lighthouse a
-                +95 de forma constante.
+              <li class="log-entry">
+                <span class="log-timestamp">[JUL 16]</span>
+                <span class="log-message"
+                  >Establecí estándares de accesibilidad (WCAG AA),
+                  incrementando el score de accesibilidad de Lighthouse a +95 de
+                  forma constante.</span
+                >
               </li>
-              <li class="log-line">
-                <span class="log-time">[JUL 16]</span> Mentoré a 4 desarrolladores
-                frontend junior/mid y coordiné integraciones fluidas con el equipo
-                de Backend (Node/Go).
+              <li class="log-entry">
+                <span class="log-timestamp">[JUL 16]</span>
+                <span class="log-message"
+                  >Mentoré a 4 desarrolladores frontend junior/mid y coordiné
+                  integraciones fluidas con el equipo de Backend (Node/Go).</span
+                >
               </li>
             </ul>
           </div>
@@ -279,15 +307,19 @@ const latestPosts = allPosts
       </div>
 
       <!-- Experiencia 2 -->
-      <div class="experience-item" data-role="senior-dev">
+      <div class="experience-card" data-role="senior-dev">
         <button class="experience-trigger hover-link" data-cursor-expand>
-          <span class="exp-dot"></span>
-          <div class="exp-title-row">
-            <h3 class="exp-role">Senior Software Engineer (Frontend)</h3>
-            <span class="exp-company mono">Nexa Solutions // Remoto</span>
+          <div class="card-header">
+            <div class="card-status">
+              <span class="card-dot"></span>
+              <span class="card-period mono">2021 - 2023</span>
+            </div>
+            <div class="card-info">
+              <h3 class="card-role">Senior Software Engineer (Frontend)</h3>
+              <span class="card-company mono">Nexa Solutions // Remoto</span>
+            </div>
           </div>
-          <span class="exp-date mono">2021 - 2023</span>
-          <span class="exp-chevron">
+          <span class="card-chevron">
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -303,25 +335,37 @@ const latestPosts = allPosts
           </span>
         </button>
 
-        <div class="experience-details">
-          <div class="details-inner mono">
-            <p class="log-cmd">
-              $ journalctl -u career.service --identifier="Nexa Solutions"
-            </p>
-            <ul class="log-lines">
-              <li class="log-line">
-                <span class="log-time">[DEC 22]</span> Optimicé Core Web Vitals en
-                la plataforma e-commerce principal, logrando una mejora del 35% en
-                First Contentful Paint.
+        <div class="experience-content">
+          <div class="content-inner">
+            <div class="log-header mono">
+              <span class="log-prompt">$</span>
+              <span
+                >journalctl -u career.service --identifier="Nexa Solutions"</span
+              >
+            </div>
+            <ul class="log-entries">
+              <li class="log-entry">
+                <span class="log-timestamp">[DEC 22]</span>
+                <span class="log-message"
+                  >Optimicé Core Web Vitals en la plataforma e-commerce
+                  principal, logrando una mejora del 35% en First Contentful
+                  Paint.</span
+                >
               </li>
-              <li class="log-line">
-                <span class="log-time">[DEC 22]</span> Desarrollé dashboards interactivos
-                de analítica en tiempo real utilizando React y WebSocket pipelines.
+              <li class="log-entry">
+                <span class="log-timestamp">[DEC 22]</span>
+                <span class="log-message"
+                  >Desarrollé dashboards interactivos de analítica en tiempo
+                  real utilizando React y WebSocket pipelines.</span
+                >
               </li>
-              <li class="log-line">
-                <span class="log-time">[DEC 22]</span> Automaticé flujos de integración
-                y despliegue continuo (CI/CD) con GitHub Actions, reduciendo los tiempos
-                de despliegue a producción de 25 a 8 minutos.
+              <li class="log-entry">
+                <span class="log-timestamp">[DEC 22]</span>
+                <span class="log-message"
+                  >Automaticé flujos de integración y despliegue continuo
+                  (CI/CD) con GitHub Actions, reduciendo los tiempos de
+                  despliegue a producción de 25 a 8 minutos.</span
+                >
               </li>
             </ul>
           </div>
@@ -329,15 +373,21 @@ const latestPosts = allPosts
       </div>
 
       <!-- Experiencia 3 -->
-      <div class="experience-item" data-role="fullstack-dev">
+      <div class="experience-card" data-role="fullstack-dev">
         <button class="experience-trigger hover-link" data-cursor-expand>
-          <span class="exp-dot"></span>
-          <div class="exp-title-row">
-            <h3 class="exp-role">Full Stack Developer</h3>
-            <span class="exp-company mono">ByteCraft Studio // Presencial</span>
+          <div class="card-header">
+            <div class="card-status">
+              <span class="card-dot"></span>
+              <span class="card-period mono">2018 - 2021</span>
+            </div>
+            <div class="card-info">
+              <h3 class="card-role">Full Stack Developer</h3>
+              <span class="card-company mono"
+                >ByteCraft Studio // Presencial</span
+              >
+            </div>
           </div>
-          <span class="exp-date mono">2018 - 2021</span>
-          <span class="exp-chevron">
+          <span class="card-chevron">
             <svg
               viewBox="0 0 24 24"
               fill="none"
@@ -353,26 +403,35 @@ const latestPosts = allPosts
           </span>
         </button>
 
-        <div class="experience-details">
-          <div class="details-inner mono">
-            <p class="log-cmd">
-              $ journalctl -u career.service --identifier="ByteCraft Studio"
-            </p>
-            <ul class="log-lines">
-              <li class="log-line">
-                <span class="log-time">[AUG 20]</span> Creé servicios backend robustos
-                con Node.js, Express y bases de datos PostgreSQL para dar soporte
-                a +10k usuarios activos.
+        <div class="experience-content">
+          <div class="content-inner">
+            <div class="log-header mono">
+              <span class="log-prompt">$</span>
+              <span
+                >journalctl -u career.service --identifier="ByteCraft Studio"</span
+              >
+            </div>
+            <ul class="log-entries">
+              <li class="log-entry">
+                <span class="log-timestamp">[AUG 20]</span>
+                <span class="log-message"
+                  >Creé servicios backend robustos con Node.js, Express y bases
+                  de datos PostgreSQL para dar soporte a +10k usuarios activos.</span
+                >
               </li>
-              <li class="log-line">
-                <span class="log-time">[AUG 20]</span> Implementé maquetas responsive
-                pixel-perfect a partir de diseños de Figma usando HTML5 semántico
-                y CSS moderno.
+              <li class="log-entry">
+                <span class="log-timestamp">[AUG 20]</span>
+                <span class="log-message"
+                  >Implementé maquetas responsive pixel-perfect a partir de
+                  diseños de Figma usando HTML5 semántico y CSS moderno.</span
+                >
               </li>
-              <li class="log-line">
-                <span class="log-time">[AUG 20]</span> Colaboré en la contenerización
-                de las aplicaciones con Docker para asegurar paridad entre entornos
-                local y staging.
+              <li class="log-entry">
+                <span class="log-timestamp">[AUG 20]</span>
+                <span class="log-message"
+                  >Colaboré en la contenerización de las aplicaciones con Docker
+                  para asegurar paridad entre entornos local y staging.</span
+                >
               </li>
             </ul>
           </div>
@@ -459,11 +518,9 @@ const latestPosts = allPosts
   </section>
 </Layout>
 
-
-
 <script>
   function setupExperienceAccordion() {
-    const items = document.querySelectorAll(".experience-item");
+    const items = document.querySelectorAll(".experience-card");
 
     if (!items.length) return;
 

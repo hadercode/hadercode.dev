@@ -156,11 +156,117 @@ const totalPostsCount = posts.length;
       </article>
     </div>
   </div>
+
+  <!-- Botón Flotante de Navegación (Categorías + Búsqueda) -->
+  <button
+    id="post-nav-btn"
+    class="post-nav-btn mono"
+    aria-label="Navegación y búsqueda"
+    data-cursor-expand
+  >
+    <svg
+      viewBox="0 0 24 24"
+      width="18"
+      height="18"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+    >
+      <circle cx="11" cy="11" r="8"></circle>
+      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+    </svg>
+    <span>nav_search()</span>
+  </button>
+
+  <!-- Modal de Navegación (Categorías + Búsqueda) -->
+  <div id="post-nav-modal" class="post-nav-modal">
+    <div class="post-nav-backdrop" id="post-nav-backdrop"></div>
+    <div class="post-nav-content">
+      <div class="post-nav-header">
+        <span class="modal-title mono">// POST_NAVIGATION</span>
+        <button
+          id="close-post-nav-modal"
+          class="close-modal-btn mono"
+          aria-label="Cerrar"
+        >[x]</button>
+      </div>
+      <div class="post-nav-body">
+        <!-- Bloque de Búsqueda -->
+        <div class="modal-search-block">
+          <div class="terminal-cmd mono" style="margin-bottom: 0.75rem; font-size: 0.75rem; color: var(--accent-secondary);">
+            $ grep -in <span class="syntax-keyword">"term"</span> post.md
+          </div>
+          <div class="search-input-wrapper" style="margin-bottom: 0;">
+            <span class="prompt">$</span>
+            <input type="text" id="modal-grep-input" class="grep-input" placeholder="buscar texto..." autocomplete="off" data-cursor-expand />
+          </div>
+          <div id="modal-search-stats" class="search-stats" style="display: none; opacity: 0; transition: opacity 0.2s ease;">
+            <span id="modal-match-count">0 coincidencia(s)</span>
+          </div>
+        </div>
+
+        <hr class="post-nav-divider" />
+
+        <!-- Bloque de Categorías -->
+        <div class="terminal-cmd mono" style="margin-bottom: 0.75rem; font-size: 0.75rem; color: var(--accent-secondary);">
+          $ ls -F content/blog/
+        </div>
+        <ul class="modal-category-list mono">
+          <li>
+            <a href="/blog?category=all" class="modal-category-btn hover-link" data-cursor-expand>
+              <span class="btn-indicator">[ ]</span> todos/ ({totalPostsCount})
+            </a>
+          </li>
+          {categoriesList.map((cat) => {
+            const isActive = post.data.category === cat.name;
+            return (
+              <li>
+                <a href={`/blog?category=${cat.name}`} class={`modal-category-btn hover-link ${isActive ? 'active' : ''}`} data-cursor-expand>
+                  <span class="btn-indicator">{isActive ? '[*]' : '[ ]'}</span> {cat.name.toLowerCase()}/ ({cat.count})
+                </a>
+              </li>
+            );
+          })}
+        </ul>
+      </div>
+    </div>
+  </div>
 </Layout>
 
 
 
 <script>
+  function setupPostNavModal() {
+    const btn = document.getElementById('post-nav-btn');
+    const modal = document.getElementById('post-nav-modal');
+    const backdrop = document.getElementById('post-nav-backdrop');
+    const closeBtn = document.getElementById('close-post-nav-modal');
+
+    if (!btn || !modal) return;
+
+    const openModal = () => {
+      modal.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    };
+
+    const closeModal = () => {
+      modal.classList.remove('active');
+      document.body.style.overflow = '';
+    };
+
+    btn.addEventListener('click', openModal);
+    if (closeBtn) closeBtn.addEventListener('click', closeModal);
+    if (backdrop) backdrop.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && modal.classList.contains('active')) {
+        closeModal();
+      }
+    });
+  }
+
   function setupScrollProgress() {
     const scrollBar = document.getElementById('scroll-bar');
     if (!scrollBar) return;
@@ -174,32 +280,22 @@ const totalPostsCount = posts.length;
   }
 
   function setupSearch() {
-    const grepInput = document.getElementById('grep-input') as HTMLInputElement;
     const postContent = document.querySelector('.post-content');
-    const searchStats = document.getElementById('search-stats');
-    const matchCount = document.getElementById('match-count');
-
-    if (!grepInput || !postContent) return;
+    if (!postContent) return;
 
     let originalHTML = postContent.innerHTML;
 
-    // Helper to escape regex characters
     function escapeRegExp(string: string) {
       return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
     }
 
-    grepInput.addEventListener('input', () => {
-      const query = grepInput.value;
-
-      // Clear highlights
+    function performSearch(query: string, statsEl: HTMLElement | null, countEl: HTMLElement | null) {
       postContent.innerHTML = originalHTML;
 
       if (!query || query.trim().length < 2) {
-        if (searchStats) {
-          searchStats.style.opacity = '0';
-          setTimeout(() => {
-            searchStats.style.display = 'none';
-          }, 200);
+        if (statsEl) {
+          statsEl.style.opacity = '0';
+          setTimeout(() => { statsEl.style.display = 'none'; }, 200);
         }
         return;
       }
@@ -208,60 +304,89 @@ const totalPostsCount = posts.length;
       const regex = new RegExp(`(${escapedQuery})`, 'gi');
       let matches = 0;
 
-      // Walk text nodes to highlight matches
       const walk = document.createTreeWalker(postContent, NodeFilter.SHOW_TEXT, null);
       const textNodes: Node[] = [];
       let currentNode;
 
       while (currentNode = walk.nextNode()) {
         const parentTag = currentNode.parentElement?.tagName.toUpperCase();
-        if (
-          parentTag === 'PRE' || 
-          parentTag === 'CODE' || 
-          parentTag === 'SCRIPT' || 
-          parentTag === 'STYLE' || 
-          parentTag === 'MARK'
-        ) {
-          continue;
-        }
-        if (regex.test(currentNode.nodeValue || '')) {
-          textNodes.push(currentNode);
-        }
+        if (parentTag === 'PRE' || parentTag === 'CODE' || parentTag === 'SCRIPT' || parentTag === 'STYLE' || parentTag === 'MARK') continue;
+        if (regex.test(currentNode.nodeValue || '')) textNodes.push(currentNode);
       }
 
       textNodes.forEach(node => {
         const text = node.nodeValue || '';
         const nodeMatches = text.match(regex);
-        if (nodeMatches) {
-          matches += nodeMatches.length;
-        }
-
+        if (nodeMatches) matches += nodeMatches.length;
         const span = document.createElement('span');
         span.innerHTML = text.replace(regex, '<mark class="highlight">$1</mark>');
         node.parentNode?.replaceChild(span, node);
       });
 
-      // Update statistics
-      if (searchStats && matchCount) {
-        searchStats.style.display = 'block';
-        // force reflow
-        searchStats.offsetHeight;
-        searchStats.style.opacity = '1';
-        matchCount.textContent = `${matches} coincidencia${matches === 1 ? '' : 's'}`;
+      if (statsEl && countEl) {
+        statsEl.style.display = 'block';
+        statsEl.offsetHeight;
+        statsEl.style.opacity = '1';
+        countEl.textContent = `${matches} coincidencia${matches === 1 ? '' : 's'}`;
       }
-    });
+    }
 
-    // Clear search input on navigation / restore original HTML state
+    // Sidebar input
+    const grepInput = document.getElementById('grep-input');
+    const searchStats = document.getElementById('search-stats');
+    const matchCount = document.getElementById('match-count');
+    if (grepInput) {
+      grepInput.addEventListener('input', () => performSearch(grepInput.value, searchStats, matchCount));
+    }
+
+    // Modal input
+    const modalInput = document.getElementById('modal-grep-input');
+    const modalStats = document.getElementById('modal-search-stats');
+    const modalCount = document.getElementById('modal-match-count');
+    if (modalInput) {
+      modalInput.addEventListener('input', () => performSearch(modalInput.value, modalStats, modalCount));
+    }
+
     document.addEventListener('astro:before-swap', () => {
-      if (postContent && originalHTML) {
-        postContent.innerHTML = originalHTML;
-      }
+      if (postContent && originalHTML) postContent.innerHTML = originalHTML;
     }, { once: true });
   }
 
-  // Hook into Astro Page Load cycle
+  function setupCopyButtons() {
+    const pres = document.querySelectorAll('.post-content pre');
+    pres.forEach(pre => {
+      if (pre.querySelector('.copy-btn')) return;
+
+      const btn = document.createElement('button');
+      btn.className = 'copy-btn mono';
+      btn.textContent = '[copy]';
+
+      btn.addEventListener('click', async () => {
+        const text = pre.textContent || '';
+        try {
+          await navigator.clipboard.writeText(text);
+          btn.textContent = '[copied!]';
+          btn.classList.add('copied');
+          setTimeout(() => {
+            btn.textContent = '[copy]';
+            btn.classList.remove('copied');
+          }, 2000);
+        } catch {
+          btn.textContent = '[error]';
+          setTimeout(() => {
+            btn.textContent = '[copy]';
+          }, 2000);
+        }
+      });
+
+      pre.appendChild(btn);
+    });
+  }
+
   document.addEventListener('astro:page-load', () => {
+    setupPostNavModal();
     setupScrollProgress();
     setupSearch();
+    setupCopyButtons();
   });
 </script>

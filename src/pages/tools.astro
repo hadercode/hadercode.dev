@@ -1,5 +1,6 @@
 ---
 import Layout from "../layouts/Layout.astro";
+import Card from "../components/Card.astro";
 import type { Tool, Roadmap } from "../types/tools";
 import { tools } from "../data/tools";
 import { roadmaps } from "../data/roadmaps";
@@ -232,9 +233,10 @@ const totalToolsCount = tools.length;
           <div class="tools-grid" id="tools-grid">
             {
               tools.map((tool, index) => (
-                <div
-                  class={`tool-card ${tool.highlight ? "featured" : ""} animate-fade-in`}
+                <Card
+                  class={`animate-fade-in`}
                   data-category={tool.category}
+                  variant={tool.highlight ? "featured" : "default"}
                 >
                   <div class="card-header">
                     <span class="card-num mono">
@@ -266,7 +268,7 @@ const totalToolsCount = tools.length;
                       open_resource() &rarr;
                     </a>
                   </div>
-                </div>
+                </Card>
               ))
             }
           </div>
@@ -385,7 +387,7 @@ const totalToolsCount = tools.length;
     const modalCategoryButtons = document.querySelectorAll(
       ".modal-category-btn",
     );
-    const toolCards = document.querySelectorAll(".tool-card");
+    const toolCards = document.querySelectorAll(".card[data-category]");
     const noResultsMsg = document.getElementById("no-results");
 
     // Modal elements

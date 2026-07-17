@@ -1,0 +1,34 @@
+---
+import "../styles/card.css";
+
+interface Props {
+  class?: string;
+  href?: string;
+  dataCategory?: string;
+  variant?: "default" | "featured" | "compact" | "image";
+  [key: string]: any;
+}
+
+const {
+  class: className,
+  href,
+  dataCategory,
+  variant = "default",
+  ...rest
+} = Astro.props;
+
+const variantClass = variant !== "default" ? `card--${variant}` : "";
+const classes = ["card", variantClass, className].filter(Boolean).join(" ");
+---
+
+{
+  href ? (
+    <a href={href} class={classes} data-category={dataCategory} {...rest}>
+      <slot />
+    </a>
+  ) : (
+    <div class={classes} data-category={dataCategory} {...rest}>
+      <slot />
+    </div>
+  )
+}

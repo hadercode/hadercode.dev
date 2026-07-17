@@ -26,6 +26,22 @@
   /* Easing */
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* Breakpoints */
+  --bp-mobile-sm: 480px;
+  --bp-mobile: 768px;
+  --bp-tablet: 900px;
+  --bp-desktop-sm: 1024px;
+  --bp-desktop: 1200px;
+
+  /* Spacing Scale */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+  --space-2xl: 4rem;
+  --space-3xl: 6rem;
 }
 
 /* Modern CSS Reset */
@@ -248,6 +264,12 @@ code {
   
   main {
     padding: 0 1.5rem;
+  }
+}
+
+@media (max-width: 768px) {
+  main {
+    padding: 0 1.25rem;
   }
 }
 

@@ -30,64 +30,137 @@
     align-items: start;
 }
 
-/* Left Column */
+/* Left Column - Info Cards */
 .contact-info-panel {
     display: flex;
     flex-direction: column;
-    gap: 4rem;
+    gap: 1.5rem;
 }
 
-.info-block {
+.info-card {
+    background-color: var(--bg-secondary);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 6px;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
+    transition: border-color 0.3s ease;
 }
 
-.block-title {
-    font-size: 0.8rem;
-    color: var(--text-secondary);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+.info-card:hover {
+    border-color: rgba(255, 255, 255, 0.08);
 }
 
-.block-link {
-    font-size: clamp(1.5rem, 3vw, 2.2rem);
-    font-weight: 800;
-    color: var(--text-primary);
-    line-height: 1.1;
+.info-card-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
-.block-link:hover {
+.info-prompt {
     color: var(--accent-primary);
-}
-
-.block-text {
-    font-size: 1.2rem;
-    color: var(--text-primary);
-    font-weight: 500;
-}
-
-.block-subtext {
     font-size: 0.85rem;
-    color: var(--accent-secondary);
+    font-weight: 700;
 }
 
-.contact-socials {
+.info-var {
+    color: var(--text-secondary);
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+}
+
+.info-value {
+    font-size: clamp(1.1rem, 2vw, 1.4rem);
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.2;
+    word-break: break-word;
+}
+
+.email-link {
+    font-size: clamp(1.15rem, 2.5vw, 1.6rem);
+    font-weight: 800;
+    color: var(--accent-primary);
+    transition: opacity 0.3s ease;
+}
+
+.email-link:hover {
+    opacity: 0.7;
+}
+
+.info-footer {
     display: flex;
     flex-wrap: wrap;
-    gap: 1.5rem;
-    font-family: var(--font-mono);
+    gap: 0.5rem;
+    margin-top: 0.25rem;
 }
 
-.contact-socials a {
-    font-size: 1.05rem;
+.info-badge {
+    display: inline-flex;
+    align-items: center;
+    font-size: 0.7rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.latency-badge {
+    color: var(--accent-secondary);
+    border-color: rgba(182, 141, 99, 0.2);
+    background-color: rgba(182, 141, 99, 0.06);
+}
+
+.tz-badge {
+    color: var(--text-secondary);
+}
+
+/* Social Links */
+.contact-socials {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.social-link {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.9rem;
     font-weight: 600;
+    color: var(--text-secondary);
+    padding: 0.35rem 0;
+    transition: color 0.2s ease;
+}
+
+.social-link svg {
+    opacity: 0.6;
+    transition: opacity 0.2s ease;
+}
+
+.social-link:hover {
     color: var(--text-primary);
 }
 
-.contact-socials a:hover {
+.social-link:hover svg {
+    opacity: 1;
+}
+
+/* Tech Stack Tags */
+.tech-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+
+.tech-tag {
+    font-size: 0.7rem;
     color: var(--accent-primary);
-    text-decoration: underline;
+    background-color: rgba(183, 226, 65, 0.06);
+    border: 1px solid rgba(183, 226, 65, 0.12);
+    padding: 0.2rem 0.45rem;
+    border-radius: 3px;
+    letter-spacing: 0.02em;
 }
 
 /* Right Column (Form) */
@@ -96,7 +169,6 @@
     border: 1px solid rgba(255, 255, 255, 0.03);
     padding: 4rem;
     border-radius: 12px;
-    /* Redondeado técnico */
     position: relative;
     overflow: hidden;
     min-height: 520px;
@@ -122,10 +194,21 @@
     width: calc(100% - 8rem);
 }
 
-
 .submit-btn {
     align-self: flex-start;
     margin-top: 1rem;
+}
+
+.submit-btn span {
+    font-family: var(--font-mono);
+}
+
+/* Privacy Note */
+.privacy-note {
+    font-size: 0.7rem;
+    color: rgba(255, 255, 255, 0.25);
+    margin-top: -1.5rem;
+    letter-spacing: 0.02em;
 }
 
 /* Terminal Loader & Success Screen */
@@ -209,17 +292,169 @@
 }
 
 /* Responsive Design */
+@media (max-width: 1200px) {
+    .contact-grid {
+        gap: 4rem;
+    }
+}
+
+@media (max-width: 1024px) {
+    .contact-form-panel {
+        padding: 3rem;
+    }
+
+    .contact-form.hidden {
+        width: calc(100% - 6rem);
+    }
+}
+
 @media (max-width: 900px) {
+    .contact-section {
+        padding: 10rem 0 6rem 0;
+    }
+
+    .contact-header {
+        margin-bottom: 4rem;
+    }
+
     .contact-grid {
         grid-template-columns: 1fr;
-        gap: 5rem;
+        gap: 3rem;
+    }
+
+    .contact-info-panel {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
+    }
+
+    .info-card {
+        padding: 1.25rem;
     }
 
     .contact-form-panel {
-        padding: 3rem 2rem;
+        padding: 2.5rem 2rem;
     }
 
     .contact-form.hidden {
         width: calc(100% - 4rem);
+    }
+}
+
+@media (max-width: 600px) {
+    .contact-info-panel {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .contact-section {
+        padding: 8rem 0 4rem 0;
+    }
+
+    .contact-header {
+        margin-bottom: 3rem;
+    }
+
+    .header-title {
+        font-size: clamp(2.5rem, 8vw, 4rem);
+    }
+
+    .contact-info-panel {
+        gap: 0.75rem;
+    }
+
+    .info-card {
+        padding: 1rem;
+    }
+
+    .info-value {
+        font-size: clamp(1rem, 3vw, 1.2rem);
+    }
+
+    .email-link {
+        font-size: clamp(1rem, 3.5vw, 1.3rem);
+    }
+
+    .contact-form-panel {
+        padding: 2rem 1.5rem;
+        border-radius: 8px;
+    }
+
+    .contact-form {
+        gap: 2rem;
+    }
+
+    .contact-form.hidden {
+        width: calc(100% - 3rem);
+    }
+
+    .terminal-loader-body {
+        padding: 1rem;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .contact-section {
+        padding: 7rem 0 3rem 0;
+    }
+
+    .contact-header {
+        margin-bottom: 2.5rem;
+    }
+
+    .header-title {
+        font-size: clamp(2rem, 10vw, 3rem);
+    }
+
+    .header-desc {
+        font-size: 1rem;
+    }
+
+    .contact-info-panel {
+        gap: 0.5rem;
+    }
+
+    .contact-socials {
+        gap: 0.25rem;
+    }
+
+    .social-link {
+        font-size: 0.85rem;
+        padding: 0.25rem 0;
+    }
+
+    .contact-form-panel {
+        padding: 1.5rem 1.25rem;
+        border-radius: 6px;
+    }
+
+    .contact-form {
+        gap: 1.5rem;
+    }
+
+    .contact-form.hidden {
+        width: calc(100% - 2.5rem);
+    }
+
+    .submit-btn {
+        width: 100%;
+    }
+
+    .submit-btn span {
+        text-align: center;
+        justify-content: center;
+    }
+
+    .privacy-note {
+        font-size: 0.65rem;
+        margin-top: -0.75rem;
+    }
+
+    .terminal-loader-body {
+        padding: 0.75rem;
+        font-size: 0.75rem;
+        max-height: 300px;
     }
 }

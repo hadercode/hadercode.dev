@@ -80,10 +80,13 @@
 
   .horizontal-scroll-container {
     display: flex;
-    gap: 4rem;
+    gap: 3rem;
     overflow-x: auto;
     padding: 2rem 4rem 6rem 4rem;
     scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
   }
 
   .horizontal-scroll-container::-webkit-scrollbar {
@@ -91,10 +94,11 @@
   }
 
   .showcase-item {
-    flex: 0 0 550px;
+    flex: 0 0 min(550px, 80vw);
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
+    scroll-snap-align: start;
   }
 
   .item-number {
@@ -187,11 +191,11 @@
 
   /* CTA Item Styles */
   .cta-item {
-    flex: 0 0 450px;
+    flex: 0 0 min(450px, 75vw);
   }
 
   .cta-inner {
-    padding: 4rem 3rem;
+    padding: 3rem 2rem;
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -213,14 +217,14 @@
   }
 
   .cta-title {
-    font-size: 2.2rem;
+    font-size: 2rem;
     font-weight: 800;
     line-height: 1.1;
     text-transform: uppercase;
   }
 
   .cta-desc {
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: var(--text-secondary);
     line-height: 1.5;
     margin-bottom: 1rem;
@@ -230,8 +234,73 @@
     align-self: flex-start;
   }
 
-  /* Responsive Adjustments */
+  /* Responsive Adjustments - Tablet */
+  @media (max-width: 900px) {
+    .projects-page-wrapper {
+      padding-top: 8rem;
+    }
+
+    .intro-title {
+      font-size: clamp(2.5rem, 8vw, 4rem);
+    }
+
+    .showcase-section {
+      margin-left: 0;
+      width: 100%;
+    }
+
+    .horizontal-scroll-container {
+      padding: 1.5rem 2rem 4rem 2rem;
+      gap: 2rem;
+    }
+
+    .showcase-item {
+      flex: 0 0 min(480px, 85vw);
+    }
+
+    .item-info {
+      padding: 2rem;
+    }
+
+    .item-title {
+      font-size: 1.75rem;
+    }
+
+    .cta-item {
+      flex: 0 0 min(400px, 80vw);
+    }
+
+    .cta-inner {
+      padding: 2.5rem 1.5rem;
+    }
+
+    .cta-title {
+      font-size: 1.75rem;
+    }
+  }
+
+  /* Responsive Adjustments - Mobile */
   @media (max-width: 768px) {
+    .projects-page-wrapper {
+      padding-top: 7rem;
+    }
+
+    .bg-giant-text {
+      display: none;
+    }
+
+    .intro-title {
+      font-size: clamp(2rem, 10vw, 3rem);
+    }
+
+    .intro-desc {
+      font-size: 1rem;
+    }
+
+    .scroll-helper {
+      display: none;
+    }
+
     .showcase-section {
       width: auto;
       margin-left: 0;
@@ -239,9 +308,10 @@
 
     .horizontal-scroll-container {
       flex-direction: column;
-      gap: 3rem;
+      gap: 2rem;
       padding: 0;
       overflow-x: visible;
+      scroll-snap-type: none;
     }
 
     .showcase-item {
@@ -253,11 +323,86 @@
       filter: grayscale(0%);
     }
 
-    .scroll-helper {
-      display: none;
+    .item-info {
+      padding: 1.5rem;
     }
 
-    .bg-giant-text {
-      display: none;
+    .item-title {
+      font-size: 1.5rem;
+    }
+
+    .item-desc {
+      font-size: 0.9rem;
+    }
+
+    .cta-item {
+      flex: 1 1 auto;
+      width: 100%;
+    }
+
+    .cta-inner {
+      padding: 2rem 1.5rem;
+    }
+
+    .cta-title {
+      font-size: 1.5rem;
+    }
+
+    .cta-desc {
+      font-size: 0.9rem;
+    }
+  }
+
+  /* Responsive Adjustments - Mobile Small */
+  @media (max-width: 480px) {
+    .projects-page-wrapper {
+      padding-top: 6rem;
+    }
+
+    .intro-title {
+      font-size: clamp(1.75rem, 12vw, 2.5rem);
+    }
+
+    .intro-desc {
+      font-size: 0.95rem;
+      line-height: 1.5;
+    }
+
+    .item-number {
+      font-size: 0.95rem;
+    }
+
+    .item-info {
+      padding: 1.25rem;
+      gap: 0.75rem;
+    }
+
+    .item-tag {
+      font-size: 0.65rem;
+      padding: 0.15rem 0.5rem;
+    }
+
+    .item-title {
+      font-size: 1.35rem;
+    }
+
+    .item-desc {
+      font-size: 0.85rem;
+    }
+
+    .cta-inner {
+      padding: 1.5rem 1.25rem;
+    }
+
+    .cta-subtitle {
+      font-size: 0.75rem;
+    }
+
+    .cta-title {
+      font-size: 1.35rem;
+    }
+
+    .cta-desc {
+      font-size: 0.85rem;
     }
   }

@@ -1,5 +1,6 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+import Card from "../../components/Card.astro";
 import { getCollection } from "astro:content";
 import "../../styles/blog-list.css";
 
@@ -165,59 +166,54 @@ const totalPostsCount = sortedPosts.length;
         <div class="blog-grid" id="blog-grid">
           {
             sortedPosts.map((post, index) => (
-              <article
+              <Card
+                href={`/blog/${post.id}`}
                 class="blog-card animate-fade-in"
                 data-category={post.data.category || "General"}
               >
-                <a
-                  href={`/blog/${post.id}`}
-                  class="blog-card-link hover-link"
-                  data-cursor-expand
-                >
-                  <div class="card-num mono">
-                    ({String(index + 1).padStart(2, "0")})
+                <div class="card-num mono">
+                  ({String(index + 1).padStart(2, "0")})
+                </div>
+                <div class="card-body">
+                  <span class="card-date mono">
+                    // PUBLISHED:{" "}
+                    {post.data.pubDate
+                      .toLocaleDateString("es-ES", {
+                        year: "numeric",
+                        month: "short",
+                        day: "numeric",
+                      })
+                      .toUpperCase()}{" "}
+                    | CATEGORY:{" "}
+                    {post.data.category?.toUpperCase() || "GENERAL"}
+                  </span>
+                  <h2 class="card-title">{post.data.title}</h2>
+                  <p class="card-excerpt">{post.data.description}</p>
+                  <div class="card-tags">
+                    {post.data.tags.map((tag) => (
+                      <span class="card-tag mono">tag::{tag}</span>
+                    ))}
                   </div>
-                  <div class="card-body">
-                    <span class="card-date mono">
-                      // PUBLISHED:{" "}
-                      {post.data.pubDate
-                        .toLocaleDateString("es-ES", {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
-                        })
-                        .toUpperCase()}{" "}
-                      | CATEGORY:{" "}
-                      {post.data.category?.toUpperCase() || "GENERAL"}
-                    </span>
-                    <h2 class="card-title">{post.data.title}</h2>
-                    <p class="card-excerpt">{post.data.description}</p>
-                    <div class="card-tags">
-                      {post.data.tags.map((tag) => (
-                        <span class="card-tag mono">tag::{tag}</span>
-                      ))}
-                    </div>
-                  </div>
-                  <div class="card-action">
-                    <span class="action-btn">
-                      cat entry.md
-                      <svg
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M5 12H19M19 12L13 6M19 12L13 18"
-                          stroke="currentColor"
-                          stroke-width="2"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                        />
-                      </svg>
-                    </span>
-                  </div>
-                </a>
-              </article>
+                </div>
+                <div class="card-action">
+                  <span class="action-btn">
+                    cat entry.md
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        d="M5 12H19M19 12L13 6M19 12L13 18"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      />
+                    </svg>
+                  </span>
+                </div>
+              </Card>
             ))
           }
         </div>
